@@ -30,3 +30,4 @@ Repository ini menyimpan berbagai komponen penting pengembangan aplikasi, melipu
 
 ## 🤝 Kolaborasi Tim
 Setiap anggota tim memiliki peran dan kontribusi dalam seluruh proses pengembangan aplikasi, mulai dari analisis kebutuhan hingga tahap evaluasi akhir.
+>>>>>>> 06aabf5ca51a9e4e04de98b5de9939c5bc726348
