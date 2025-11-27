@@ -30,7 +30,7 @@
                     
                     <div class="flex items-baseline mb-4">
                         <p class="text-2xl font-bold text-primary-dark font-inika mr-3">Rp 10.900</p>
-                        <p class="text-base text-gray-500 line-through font-inika">Rp90.800</p>
+                        <p class="text-base text-gray-500 line-through font-inika">Rp 90.800</p>
                     </div>
 
                     <h3 class="text-lg font-bold font-inika text-black mb-2 mt-6">Description</h3>

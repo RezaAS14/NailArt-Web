@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nail ART</title>
+    <title><?= $title ?? 'Nail ART' ?></title>
 
     <link rel="icon" type="image/png" href="<?= base_url('assets/favicon/favicon-96x96.png') ?>" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="<?= base_url('assets/favicon/favicon.svg') ?>" />
@@ -22,15 +22,18 @@
                 extend: {
                     colors: {
                         'primary-dark': '#A3485A', // Warna utama (Navbar, Footer, Modal focus)
-                        'nav-hover': '#A31111',     // Warna hover Navbar
+                        'nav-hover': '#A31111',    // Warna hover Navbar
                         'nav-inactive': '#D1A5AE', // Warna tombol Navbar yang tidak aktif
-                        'menu-bg': '#A3485A',      // Warna latar belakang menu (Tidak terpakai)
-                        'menu-hover': '#A3485A',   // Warna hover menu (Tidak terpakai)
+                        'menu-bg': '#A3485A',      // Warna latar belakang menu (Tidak terpakai)
+                        'menu-hover': '#A3485A',   // Warna hover menu (Tidak terpakai)
                         'testing-bg': '#E6CFA9', // WARNA LATAR BELAKANG DESKRIPSI (Permintaan User)
+                        // Tambahkan warna latar belakang yang digunakan di body atau section (jika perlu nama khusus)
+                        'bg-light-yellow': '#FEF3E2', // Mengambil warna dari body (asumsi: FEF3E2)
+                        'card-info': '#E6CFA9', // Mengambil warna dari testing-bg untuk info card (asumsi)
                     },
                     fontFamily: {
                         kapakana: ['Kapakana', 'cursive'], // Font untuk judul
-                        inika: ['Inika', 'serif'],         // Font untuk teks biasa
+                        inika: ['Inika', 'serif'],        // Font untuk teks biasa
                     }
                 }
             },
@@ -133,6 +136,260 @@
             align-items: center; 
             justify-content: center; 
         }
+        
+        /* Garis Header untuk judul section */
+        .header-line {
+            border-top: 2px solid #D1A5AE; /* Warna nav-inactive atau abu-abu terang */
+            width: 100%;
+        }
+        
+        /* Styling Card Produk */
+        .product-card {
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Shadow ringan */
+            position: relative; /* Untuk positioning badge dan tombol */
+            overflow: hidden; /* Penting untuk efek gambar */
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Bayangan yang lebih kuat saat hover */
+        }
+
+        /* Container Gambar (membuatnya persegi, mirip dengan gallery-item di CSS sebelumnya) */
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* Membuat kotak persegi (1:1 aspect ratio) */
+            overflow: hidden;
+            margin-bottom: 0.5rem; /* Jarak antara gambar dan teks */
+            border-radius: 0.25rem; /* Rounded ringan */
+            border: 1px solid #D1A5AE; /* Border ringan di sekitar gambar */
+        }
+
+        .product-image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+            border-radius: 0.5rem; /* Tambahkan border-radius ke gambar agar sesuai gambar referensi */
+        }
+
+        /* Efek Zoom Gambar saat hover (seperti di galeri) */
+        .product-card:hover .product-image-container img {
+            transform: scale(1.05);
+        }
+        
+        /* Discount Badge (Merah di kiri atas) */
+        .discount-badge {
+            position: absolute;
+            top: 8px; /* Posisi lebih ke dalam */
+            left: 8px; /* Posisi lebih ke dalam */
+            background-color: #A31111; /* Warna merah gelap (nav-hover) */
+            color: white;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            z-index: 10;
+            border-radius: 0.25rem;
+        }
+
+        /* Add to Cart Button (Plus di kanan atas) */
+        .add-to-cart-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: white;
+            color: #A3485A; /* primary-dark */
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            transition: background-color 0.2s, transform 0.2s;
+            border: 1px solid #A3485A;
+        }
+
+        .add-to-cart-button:hover {
+            background-color: #D1A5AE; /* nav-inactive */
+            transform: scale(1.1);
+        }
+
+        /* Overlay Detail Produk (Sembunyikan secara default) */
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Warna Overlay diubah menjadi abu-abu gelap transparan (seperti di gambar) */
+            background-color: rgba(0, 0, 0, 0.5); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 5; /* Di bawah badge dan tombol keranjang */
+            border-radius: 0.25rem;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1; /* Tampilkan saat hover */
+        }
+
+        .detail-button {
+            /* Latar belakang tombol Detail Produk menjadi putih */
+            background-color: #D9D9D9; 
+            color: #000000ff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-family: 'Inika', serif;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            border: none;
+        }
+
+        .detail-button:hover {
+            background-color: #BFBFBF; /* Warna hover tombol Detail Produk buat agak dark(testing-bg) */
+        }
+        /* --- Styling Khusus Halaman Detail Produk --- */
+
+        /* Latar belakang kartu detail dengan warna testing-bg dan noise-shape */
+        .detail-card {
+            background-color: #E6CFA9; /* testing-bg */
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 1.5rem; 
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            /* Menambahkan noise-shape class styling */
+            overflow: hidden; 
+        }
+
+        .detail-card::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            opacity: 0.25; /* Tingkat kebisingan (sama seperti noise-shape) */
+            pointer-events: none;
+            background-image: radial-gradient(#FFFDFA 10%, transparent 10%);
+            background-size: 5px 5px; /* Ukuran butiran */
+        }
+
+        /* Badge Diskon di Detail (Merah di kiri atas) */
+        .discount-badge-detail {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #A31111; /* Warna merah gelap (nav-hover) */
+            color: white;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.875rem; /* text-sm */
+            font-weight: bold;
+            z-index: 10;
+            border-top-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+        }
+
+        /* Tombol Kembali (Panah melengkung di kanan atas) */
+        .back-button {
+            position: absolute;
+            top: 1.5rem; /* Menyesuaikan dengan padding */
+            right: 1.5rem; /* Menyesuaikan dengan padding */
+            color: black;
+            font-size: 1.5rem;
+            line-height: 1;
+            z-index: 10;
+            transition: transform 0.2s;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+            color: #A3485A; /* primary-dark */
+        }
+
+        /* Container Gambar Detail Produk */
+        .product-detail-image-container {
+            position: relative;
+            /* Dibuat agar proporsional mirip gambar referensi */
+            width: 200px; /* Lebar tetap untuk desktop */
+            height: 200px; /* Tinggi tetap untuk desktop */
+            overflow: hidden;
+            border-radius: 0.5rem;
+            border: 1px solid #D1A5AE; /* Border ringan */
+        }
+
+        .product-detail-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Tombol Add to Cart (Plus di kanan bawah gambar) */
+        .add-to-cart-button-detail {
+            position: absolute;
+            bottom: 8px; 
+            right: 8px;
+            background-color: white;
+            color: #A3485A; /* primary-dark */
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            transition: background-color 0.2s, transform 0.2s;
+            border: 1px solid #A3485A;
+            font-size: 1rem;
+        }
+
+        .add-to-cart-button-detail:hover {
+            background-color: #D1A5AE; /* nav-inactive */
+            transform: scale(1.1);
+        }
+
+        /* Responsif untuk gambar (agar tidak terlalu besar di mobile) */
+        @media (max-width: 767px) {
+            .product-detail-image-container {
+                width: 150px; /* Lebih kecil di mobile */
+                height: 150px;
+                margin: 0 auto; /* Tengah di mobile */
+            }
+            .detail-card {
+                padding: 1rem;
+            }
+        }
+
+        /* Styling untuk Cart Badge */
+        .cart-badge {
+            position: absolute;
+            top: -5px; /* Sesuaikan posisi vertikal */
+            right: -5px; /* Sesuaikan posisi horizontal */
+            background-color: #A31111; /* Warna merah, sesuaikan jika perlu */
+            color: white;
+            border-radius: 50%;
+            font-size: 0.65rem; /* Ukuran font lebih kecil */
+            font-weight: bold;
+            min-width: 18px; /* Lebar minimum */
+            height: 18px; /* Tinggi */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+            line-height: 1;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 
@@ -146,32 +403,43 @@
                     class="w-32 h-32 rounded-full shadow-lg object-cover" />
             </div>
 
-            <nav class="flex space-x-4">
+            <nav class="flex space-x-4" id="main-nav-links">
                 <a href="<?= site_url('/') ?>"
-                    class="px-5 py-2 rounded-full bg-nav-hover text-white custom-navbar-shadow font-medium text-sm transition duration-300">
+                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300"
+                    data-path="/">
                     Beranda
                 </a>
-                <a href="<?= site_url('gallery') ?>" class="px-5 py-2 rounded-full bg-nav-inactive text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300">
+                <a href="<?= site_url('gallery') ?>" 
+                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300"
+                    data-path="gallery">
                     Gallery
                 </a>
-                <a href="<?= site_url('about') ?>" class="px-5 py-2 rounded-full bg-nav-inactive text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300">
+                <a href="<?= site_url('about') ?>" 
+                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300"
+                    data-path="about">
                     About Us
                 </a>
-                <a href="<?= site_url('models') ?>" class="px-5 py-2 rounded-full bg-nav-inactive text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300">
+                <a href="<?= site_url('models') ?>" 
+                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300"
+                    data-path="models">
                     Models
                 </a>
-                <a href="<?= site_url('accessories') ?>" class="px-5 py-2 rounded-full bg-nav-inactive text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300">
+                <a href="<?= site_url('accessories') ?>" 
+                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300"
+                    data-path="accessories">
                     Accessories
                 </a>
             </nav>
-
             <div class="flex space-x-2">
-                <a href="https://wa.me/6285760549969?text=Kak%20saya%20mau%20bertanya%F0%9F%99%8F" target="_blank" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg transition duration-200"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="https://www.instagram.com/rena_ils04" target="_blank" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg transition duration-200"><i class="fa-brands fa-instagram"></i></a>
-                <a href="<?= site_url('cart') ?>" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg transition duration-200"><i class="fa-solid fa-cart-shopping"></i></a>
+                <a href="https://wa.me/6285760549969?text=Kak%20saya%20mau%20bertanya%F0%9F%99%8F" target="_blank" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/rena_ils04" target="_blank" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200"><i class="fa-brands fa-instagram"></i></a>
                 
+                <a href="<?= site_url('keranjang') ?>" id="cart-link" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200 relative">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count-badge" class="cart-badge hidden">0</span>
+                </a>
                 <div id="user-container" class="relative">
-                    <a href="#" id="user-trigger" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg transition duration-200">
+                    <a href="#" id="user-trigger" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200">
                         <i class="fa-solid fa-user"></i>
                     </a>
 
@@ -185,7 +453,7 @@
                         </button>
                     </div>
 
-                    <a href="#" id="btn-show-login-modal" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg transition duration-200 hidden" title="Login">
+                    <a href="#" id="btn-show-login-modal" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200 hidden" title="Login">
                         <i class="fa-solid fa-arrow-right-to-bracket"></i>
                     </a>
                 </div>
@@ -208,6 +476,7 @@
     <?= $this->renderSection('detail_nail_polisher') ?>
     <?= $this->renderSection('detail_top_coat') ?>
     <?= $this->renderSection('profil') ?>
+    <?= $this->renderSection('keranjang') ?>
 
 
     <footer class="w-full bg-primary-dark py-6 px-10">
@@ -290,6 +559,40 @@
     </div>
 
     <script>
+        // --- FUNGSI NAV ACTIVE (PENGATURAN TITLE DIHAPUS) ---
+        
+        /**
+         * Menentukan tautan navigasi mana yang aktif dan memperbarui tampilannya.
+         */
+        function setActiveNavAndTitle() {
+            const navLinksContainer = document.getElementById('main-nav-links');
+            if (!navLinksContainer) return; 
+            
+            const navLinks = navLinksContainer.querySelectorAll('a');
+            const currentPath = window.location.pathname.replace(/^\/|\/$/g, ''); 
+            
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('data-path').replace(/^\/|\/$/g, '');
+                
+                const isHome = (currentPath === '' && linkPath === ''); 
+
+                // Logika untuk mencocokkan tautan aktif
+                const isActive = isHome || (currentPath !== '' && currentPath.startsWith(linkPath) && linkPath !== '');
+                
+                // Atur class
+                if (isActive) {
+                    link.classList.remove('bg-nav-inactive');
+                    link.classList.add('bg-nav-hover');
+                    link.classList.add('font-medium'); 
+                    link.classList.add('text-white');
+                } else {
+                    link.classList.remove('bg-nav-hover', 'font-medium');
+                    link.classList.add('bg-nav-inactive');
+                    link.classList.add('text-white');
+                }
+            });
+        }
+
         // --- FUNGSI MODAL ---
         const modalOverlay = document.getElementById('login-modal-overlay');
         const modalBox = document.getElementById('login-modal');
@@ -297,14 +600,12 @@
         /** Membuka modal dengan animasi scale. */
         function openModal() {
             modalOverlay.classList.remove('hidden');
-            // Timeout untuk memberi waktu CSS transisi agar bekerja
             setTimeout(() => { modalBox.style.transform = 'scale(1)'; }, 10);
         }
 
         /** Menutup modal dengan animasi scale dan menyembunyikan pesan error. */
         function closeModal() {
             modalBox.style.transform = 'scale(0.9)';
-            // Timeout untuk menunggu animasi scale selesai sebelum menyembunyikan overlay
             setTimeout(() => { modalOverlay.classList.add('hidden'); }, 300);
             document.getElementById('login-message').classList.add('hidden'); 
         }
@@ -325,7 +626,7 @@
                 localStorage.setItem('isLoggedIn', 'true');
                 alert('Login Berhasil!');
                 closeModal();
-                window.location.reload(); // Muat ulang halaman untuk update tampilan navbar
+                window.location.reload(); 
             } else {
                 messageElement.textContent = 'Email atau Password salah. (Coba: tes@gmail.com / 123)';
                 messageElement.classList.remove('hidden');
@@ -336,7 +637,7 @@
         function handleLogout() {
             localStorage.removeItem('isLoggedIn');
             alert('Anda telah Logout!');
-            window.location.reload(); // Muat ulang halaman untuk update tampilan navbar
+            window.location.reload(); 
         }
 
         // --- FUNGSI TOGGLE PASSWORD ---
@@ -356,6 +657,93 @@
             }
         }
 
+        // --- FUNGSI KERANJANG BARU (Shared Global) ---
+        const cartCountBadge = document.getElementById('cart-count-badge');
+        const cartLink = document.getElementById('cart-link');
+
+        // Data dummy produk (Harus sama dengan data di keranjang.php)
+        const dummyProducts = [
+            { id: 'nail_file', name: 'NAIL FILE', price: 10900, qty: 0, image: 'assets/nail-file.png' },
+            { id: 'cuticle_nipper', name: 'CUTICLE NIPPER', price: 92000, qty: 0, image: 'assets/cuticle-nipper.png' },
+            { id: 'cuticle_pusher', name: 'CUTICLE PUSHER', price: 3000, qty: 0, image: 'assets/cuticle-pusher.png' },
+            { id: 'nail_brush', name: 'NAIL BRUSH', price: 29000, qty: 0, image: 'assets/nail-brush.png' },
+            { id: 'base_coat', name: 'BASE COAT', price: 39480, qty: 0, image: 'assets/base-coat.png' },
+            { id: 'top_coat', name: 'TOP COAT', price: 29046, qty: 0, image: 'assets/top-coat.png' },
+            { id: 'nail_polisher', name: 'NAIL POLISHER', price: 43120, qty: 0, image: 'assets/nail-polisher.png' },
+            { id: 'glitters', name: 'GLITTER', price: 85600, qty: 0, image: 'assets/glitters.png' },
+        ];
+
+        /** Mengambil data keranjang dari localStorage. */
+        function getCartData() {
+            const data = localStorage.getItem('cartItems');
+            // Jika tidak ada data, kembalikan array kosong (atau array dengan 1 item default jika ini adalah load pertama)
+            if (!data || data === '[]' || JSON.parse(data).length === 0) {
+                 // Simulasi: Masukkan 1 item Cuticle Pusher, 0 Nail File, 0 Cuticle Nipper jika keranjang kosong
+                 if (window.location.pathname.includes('keranjang')) {
+                    const initialItems = [
+                         { id: 'nail_file', name: 'NAIL FILE', price: 10900, qty: 0, image: '<?= base_url('assets/nail-file.png') ?>' },
+                         { id: 'cuticle_nipper', name: 'CUTICLE NIPPER', price: 92000, qty: 0, image: '<?= base_url('assets/cuticle-nipper.png') ?>' },
+                         { id: 'cuticle_pusher', name: 'CUTICLE PUSHER', price: 3000, qty: 1, image: '<?= base_url('assets/cuticle-pusher.png') ?>' }
+                     ];
+                     localStorage.setItem('cartItems', JSON.stringify(initialItems));
+                     return initialItems;
+                 }
+                 return [];
+            }
+            return JSON.parse(data);
+        }
+
+        /** Menyimpan data keranjang ke localStorage. */
+        function saveCartData(items) {
+            localStorage.setItem('cartItems', JSON.stringify(items));
+            updateCartBadge(); // Update badge setelah menyimpan
+        }
+
+        /** Memperbarui tampilan badge keranjang (dibuat global). */
+        function updateCartBadge() {
+            const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            const count = items.reduce((sum, item) => sum + item.qty, 0);
+            cartCountBadge.textContent = count;
+            if (count > 0) {
+                cartCountBadge.classList.remove('hidden');
+            } else {
+                cartCountBadge.classList.add('hidden');
+            }
+        }
+
+        /** Menambah 1 kuantitas produk ke keranjang (dipanggil dari tombol plus di accessories). */
+        function incrementCart(productId, productDetails) {
+            let items = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            let existingItem = items.find(item => item.id === productId);
+
+            // Cek apakah item sudah ada, dan jika ada, cek apakah kuantitas > 0
+            if (existingItem && existingItem.qty > 0) {
+                existingItem.qty += 1;
+            } else {
+                 // Jika tidak ada atau qty 0, buat/perbarui
+                const productFound = dummyProducts.find(p => p.id === productId);
+                if (productFound) {
+                     const imagePath = `<?= base_url() ?>${productFound.image}`;
+                     if (existingItem) {
+                        existingItem.qty = 1;
+                        existingItem.image = imagePath; // Update image path
+                     } else {
+                        items.push({ 
+                            id: productId, 
+                            name: productDetails.name, 
+                            price: productDetails.price, 
+                            image: imagePath, 
+                            qty: 1 
+                        });
+                     }
+                }
+            }
+            
+            // Hapus item dengan qty 0
+            items = items.filter(item => item.qty > 0);
+
+            saveCartData(items);
+        }
 
         // --- INICIALISASI TAMPILAN DAN EVENT LISTENERS ---
         document.addEventListener('DOMContentLoaded', function() {
@@ -366,6 +754,36 @@
             const btnLogout = document.getElementById('btn-logout');
             const closeButton = document.getElementById('close-login-modal');
             const togglePasswordButton = document.getElementById('toggle-password');
+            
+            // Ambil semua tombol plus di halaman accessories
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-button'); 
+
+            // Panggil fungsi untuk mengatur nav active
+            setActiveNavAndTitle();
+            // Panggil fungsi untuk memuat hitungan keranjang awal
+            updateCartBadge(); 
+
+            // Event Listener untuk tombol Add to Cart (di accessories.php)
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const productCard = button.closest('.product-card');
+                    if (!productCard) return;
+
+                    const allCards = Array.from(document.querySelectorAll('.product-card'));
+                    const productIndex = allCards.indexOf(productCard);
+
+                    const productData = dummyProducts[productIndex]; 
+                    
+                    if (productData) {
+                        incrementCart(productData.id, productData); 
+                    } else {
+                        console.error('Data produk tidak ditemukan untuk indeks ini:', productIndex);
+                        alert('Error: Data produk tidak ditemukan untuk ditambahkan ke keranjang.');
+                    }
+                });
+            });
 
 
             if (isLoggedIn) {

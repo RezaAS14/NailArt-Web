@@ -3,7 +3,7 @@
     <main class="py-16 flex justify-center items-start">
         <div class="max-w-4xl w-full px-6">
             
-            <a href="#" class="text-primary-dark text-4xl mb-8 inline-block hover:text-nav-hover transition duration-200" aria-label="Kembali ke halaman sebelumnya">
+            <a href="<?= previous_url() ?>" class="text-primary-dark text-4xl mb-8 inline-block hover:text-nav-hover transition duration-200" aria-label="Kembali ke halaman sebelumnya">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
 

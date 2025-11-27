@@ -18,7 +18,7 @@ class Home extends BaseController
     public function about(): string
     {
         return view('about', [
-            'title' => 'About Us'
+            'title' => 'Tentang Kami'
         ]);
     }
 
@@ -31,7 +31,9 @@ class Home extends BaseController
     }
     public function profil(): string
     {
-        return view('profil');
+        return view('profil', [
+            'title' => 'Profil User'
+        ]);
     }
     public function index()
     {
@@ -56,6 +58,12 @@ class Home extends BaseController
     {
         return view('accessoris', [
             'title' => 'Aksesoris Nail Art'
+        ]);
+    }
+    public function keranjang()
+    {
+        return view('keranjang', [
+            'title' => 'Keranjang Belanja'
         ]);
     }
 }
