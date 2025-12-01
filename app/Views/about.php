@@ -6,11 +6,11 @@
             <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-16 font-inika text-black">
                 
                 <div class="pr-8">
-                    <h2 class="text-5xl font-bold mb-8">About Rena_ilso4</h2>
+                    <h2 class="text-5xl font-bold mb-8">About Rena_ils04</h2>
 
                     <p class="text-justify leading-relaxed mb-6 text-lg">
-                        Rena_ilso4, dibuat karena sebuah pengalaman yang kurang menyenangkan. Sebelum rena_ilso4 dibuat,
-                        Rena, sang artist yang sekaligus owner rena_ilso4 pernah memakai jasa orang lain untuk menghias
+                        Rena_ils04, dibuat karena sebuah pengalaman yang kurang menyenangkan. Sebelum rena_ils04 dibuat,
+                        Rena, sang artist yang sekaligus owner rena_ils04 pernah memakai jasa orang lain untuk menghias
                         kukunya. Namun setelah kukunya selesai dihias, model yang diinginkan rena sangat jauh dari hasil
                         yang dibuat penyedia jasa.
                     </p>
@@ -32,7 +32,7 @@
 
                     <p class="text-justify leading-relaxed text-lg">
                         Rena adalah mahasiswi semester 7 di politeknik negeri medan, ia memiliki hobi dan skill
-                        untuk menghias kuku. Itu merupakan alas utamanya untuk membangun rena_ilso4.
+                        untuk menghias kuku. Itu merupakan alas utamanya untuk membangun rena_ils04.
                     </p>
                 </div>
 
