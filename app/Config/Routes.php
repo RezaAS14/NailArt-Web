@@ -11,31 +11,54 @@ $routes->get('/models', 'Home::models');
 $routes->get('/daftar', 'Home::daftar');
 $routes->get('/accessories', 'Home::accessories');
 $routes->get('/gallery', 'Home::gallery');
-$routes->get('/profile', 'Home::profil');
-// Indonesian route variation for profile page
 $routes->get('/profil', 'Home::profil');
+$routes->post('/profil/update', 'Home::updateProfile');
 $routes->get('/keranjang', 'Home::keranjang');
 
-// --- Perubahan untuk Detail Produk Aksesori ---
+// --- AJAX Routes untuk Keranjang ---
+$routes->post('/cart/add', 'Home::addToCart');
+$routes->get('/cart/get', 'Home::getCartData');
+$routes->post('/cart/update', 'Home::updateCart');
+$routes->post('/cart/remove', 'Home::removeCart');
+$routes->post('/checkout/process', 'Home::processCheckout');
 
-// Nail File detail
-$routes->get('/accessories/detail_nail_file', 'Accessories::detail'); // Menggunakan method 'detail' untuk Nail File (sesuai controller)
-// Cuticle Pusher detail
-$routes->get('/accessories/detail_cuticle_pusher', 'Accessories::cuticlePusher');
-// Cuticle Nipper detail
-$routes->get('/accessories/detail_cuticle_nipper', 'Accessories::cuticleNipper');
-// Nail Brush detail
-$routes->get('/accessories/detail_nail_brush', 'Accessories::nailBrush');
-// Base Coat detail
-$routes->get('/accessories/detail_base_coat', 'Accessories::baseCoat');
-// Top Coat detail
-$routes->get('/accessories/detail_top_coat', 'Accessories::topCoat');
-// Nail Polisher detail
-$routes->get('/accessories/detail_nail_polisher', 'Accessories::nailPolisher');
-// Glitter detail
-$routes->get('/accessories/detail_glitter', 'Accessories::glitter');
+// --- Detail Produk Aksesori (Frontend) ---
+$routes->get('/accessories/detail/(:num)', 'Home::detailAccessory/$1');
 
-// Rute lama yang tidak digunakan (opsional dihapus jika sudah diganti di atas)
-// $routes->get('/accessories/detail', 'Accessories::detail'); 
-// $routes->get('/accessories/cuticle-pusher', 'Accessories::cuticlePusher');
-// ... dan seterusnya untuk rute lama lainnya
+// --- Rute Admin ---
+$routes->group('admin', function($routes) {
+    $routes->get('dashboard', 'Admin::dashboard'); 
+    
+    // Gallery Routes
+    $routes->get('gallery', 'Admin::gallery'); 
+    $routes->post('saveGallery', 'Admin::saveGallery');
+    $routes->get('deleteGallery/(:num)', 'Admin::deleteGallery/$1');
+    
+    // Models Routes
+    $routes->get('models', 'Admin::models'); 
+    $routes->get('models/add', 'Admin::addModel');
+    $routes->get('models/edit/(:num)', 'Admin::editModel/$1');
+    $routes->post('models/save', 'Admin::saveModel');
+    $routes->get('models/delete/(:num)', 'Admin::deleteModel/$1');
+    
+    // Accessories Routes
+    $routes->get('accessories', 'Admin::accessories'); 
+    $routes->get('accessories/add', 'Admin::addAccessory');
+    $routes->get('accessories/edit/(:num)', 'Admin::editAccessory/$1');
+    $routes->post('accessories/save', 'Admin::saveAccessory');
+    $routes->get('accessories/delete/(:num)', 'Admin::deleteAccessory/$1');
+    
+    // Users Routes
+    $routes->get('users', 'Admin::users');
+    $routes->get('user/delete/(:num)', 'Admin::deleteUser/$1');
+    
+    // Checkout Routes
+    $routes->get('checkout', 'Admin::checkout'); 
+    $routes->get('checkout/detail/(:num)', 'Admin::checkoutDetail/$1');
+    $routes->get('checkout/delete/(:num)', 'Admin::deleteCheckout/$1');
+});
+
+// *** Rute Login, Register dan Logout ***
+$routes->post('/auth/do_login', 'Auth::do_login');
+$routes->post('/auth/do_register', 'Auth::do_register');
+$routes->get('/auth/logout', 'Auth::logout');

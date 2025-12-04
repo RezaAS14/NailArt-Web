@@ -9,193 +9,109 @@
             <div class="header-line"></div>
         </div>
         
-
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-
-            <div class="bg-white product-card p-2 text-center transition duration-300 hover:shadow-xl">
-                <div class="product-image-container">
-                    <span class="discount-badge">12%</span>
-                    <button class="add-to-cart-button" aria-label="Add to cart"><i class="fa-solid fa-plus"></i></button>
-                    <img src="<?= base_url('assets/nail-file.png') ?>" alt="Nail File" class="w-full h-full object-cover">
+            
+            <?php if (empty($accessories)): ?>
+                <div class="col-span-full text-center py-10">
+                    <p class="text-gray-500 text-lg">Belum ada produk accessories tersedia.</p>
+                </div>
+            <?php else: ?>
+                <?php foreach ($accessories as $product): ?>
+                    <?php 
+                        // Hitung harga setelah diskon
+                        $harga_asli = $product['harga_produk'];
+                        $diskon = $product['diskon'] ?? 0;
+                        $harga_diskon = $harga_asli - ($harga_asli * ($diskon / 100));
+                    ?>
                     
-                    <div class="product-overlay">
-                        <a href="<?= site_url('accessories/detail_nail_file') ?>" class="detail-button">
-                            Detail Produk
-                        </a>
+                    <div class="bg-white product-card p-2 text-center transition duration-300 hover:shadow-xl">
+                        <div class="product-image-container">
+                            <?php if ($diskon > 0): ?>
+                                <span class="discount-badge"><?= number_format($diskon, 0) ?>%</span>
+                            <?php endif; ?>
+                            
+                            <button class="add-to-cart-button" 
+                                    onclick="addToCart('<?= esc($product['id_produk']) ?>', '<?= esc($product['nama_produk']) ?>', <?= $harga_diskon ?>, '<?= base_url('uploads/accessories/' . esc($product['gambar_produk'])) ?>')"
+                                    aria-label="Add to cart">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            
+                            <img src="<?= base_url('uploads/accessories/' . esc($product['gambar_produk'])) ?>" 
+                                 alt="<?= esc($product['nama_produk']) ?>" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='<?= base_url('assets/placeholder.png') ?>'">
+                            
+                            <div class="product-overlay">
+                                <a href="<?= site_url('accessories/detail/' . esc($product['id_produk'])) ?>" class="detail-button">
+                                    Detail Produk
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <p class="font-bold text-lg font-inika mb-1 text-gray-800 uppercase">
+                            <?= esc($product['nama_produk']) ?>
+                        </p>
+                        
+                        <p class="text-sm font-inika">
+                            <?php if ($diskon > 0): ?>
+                                <span class="line-through text-gray-500 mr-2">
+                                    Rp <?= number_format($harga_asli, 0, ',', '.') ?>
+                                </span>
+                            <?php endif; ?>
+                            <span class="text-primary-dark font-bold">
+                                Rp <?= number_format($harga_diskon, 0, ',', '.') ?>
+                            </span>
+                        </p>
+                        
+                        <div class="text-yellow-500 mt-1 mb-2">
+                            <i class="fa-solid fa-star text-sm"></i>
+                            <span class="text-xs text-gray-700">4.9</span>
+                        </div>
+                        
+                        <?php if ($product['stok_tersedia'] <= 5): ?>
+                            <p class="text-xs text-red-500 font-bold">Stok Terbatas!</p>
+                        <?php endif; ?>
                     </div>
-                </div>
-                <p class="font-bold text-lg font-inika mb-1 text-gray-800">NAIL FILE</p>
-                <p class="text-sm font-inika">
-                    <span class="line-through text-gray-500 mr-2">Rp 90.800</span>
-                    <span class="text-primary-dark font-bold">Rp 10.900</span> 
-                </p>
-                <div class="text-yellow-500 mt-1 mb-2">
-                    <i class="fa-solid fa-star text-sm"></i>
-                    <span class="text-xs text-gray-700">4.9</span>
-                </div>
-            </div>
-
-            <div class="bg-white product-card p-2 text-center transition duration-300 hover:shadow-xl">
-                <div class="product-image-container">
-                    <span class="discount-badge">10%</span>
-                    <button class="add-to-cart-button" aria-label="Add to cart"><i class="fa-solid fa-plus"></i></button>
-                    <img src="<?= base_url('assets/cuticle-pusher.png') ?>" alt="Cuticle Pusher" class="w-full h-full object-cover">
                     
-                    <div class="product-overlay">
-                        <a href="<?= site_url('accessories/detail_cuticle_pusher') ?>" class="detail-button">
-                            Detail Produk
-                        </a>
-                    </div>
-                </div>
-                <p class="font-bold text-lg font-inika mb-1 text-gray-800">CUTICLE PUSHER</p>
-                <p class="text-sm font-inika">
-                    <span class="line-through text-gray-500 mr-2">Rp 30.000</span>
-                    <span class="text-primary-dark font-bold">Rp 3.000</span>
-                </p>
-                <div class="text-yellow-500 mt-1 mb-2">
-                    <i class="fa-solid fa-star text-sm"></i>
-                    <span class="text-xs text-gray-700">4.9</span>
-                </div>
-            </div>
-
-            <div class="bg-white product-card p-2 text-center transition duration-300 hover:shadow-xl">
-                <div class="product-image-container">
-                    <span class="discount-badge">20%</span>
-                    <button class="add-to-cart-button" aria-label="Add to cart"><i class="fa-solid fa-plus"></i></button>
-                    <img src="<?= base_url('assets/cuticle-nipper.png') ?>" alt="Cuticle Nipper" class="w-full h-full object-cover">
-                    
-                    <div class="product-overlay">
-                        <a href="<?= site_url('accessories/detail_cuticle_nipper') ?>" class="detail-button">
-                            Detail Produk
-                        </a>
-                    </div>
-                </div>
-                <p class="font-bold text-lg font-inika mb-1 text-gray-800">CUTICLE NIPPER</p>
-                <p class="text-sm font-inika">
-                    <span class="line-through text-gray-500 mr-2">Rp 115.000</span>
-                    <span class="text-primary-dark font-bold">Rp 92.000</span>
-                </p>
-                <div class="text-yellow-500 mt-1 mb-2">
-                    <i class="fa-solid fa-star text-sm"></i>
-                    <span class="text-xs text-gray-700">4.9</span>
-                </div>
-            </div>
-
-            <div class="bg-white product-card p-2 text-center transition duration-300 hover:shadow-xl">
-                <div class="product-image-container">
-                    <span class="discount-badge">50%</span>
-                    <button class="add-to-cart-button" aria-label="Add to cart"><i class="fa-solid fa-plus"></i></button>
-                    <img src="<?= base_url('assets/nail-brush.png') ?>" alt="Nail Brush" class="w-full h-full object-cover">
-                    
-                    <div class="product-overlay">
-                        <a href="<?= site_url('accessories/detail_nail_brush') ?>" class="detail-button">
-                            Detail Produk
-                        </a>
-                    </div>
-                </div>
-                <p class="font-bold text-lg font-inika mb-1 text-gray-800">NAIL BRUSH</p>
-                <p class="text-sm font-inika">
-                    <span class="line-through text-gray-500 mr-2">Rp 58.000</span>
-                    <span class="text-primary-dark font-bold">Rp 29.000</span>
-                </p>
-                <div class="text-yellow-500 mt-1 mb-2">
-                    <i class="fa-solid fa-star text-sm"></i>
-                    <span class="text-xs text-gray-700">4.9</span>
-                </div>
-            </div>
-
-            <div class="bg-white product-card p-2 text-center transition duration-300 hover:shadow-xl">
-                <div class="product-image-container">
-                    <span class="discount-badge">50%</span>
-                    <button class="add-to-cart-button" aria-label="Add to cart"><i class="fa-solid fa-plus"></i></button>
-                    <img src="<?= base_url('assets/base-coat.png') ?>" alt="Base Coat" class="w-full h-full object-cover">
-                    
-                    <div class="product-overlay">
-                        <a href="<?= site_url('accessories/detail_base_coat') ?>" class="detail-button">
-                            Detail Produk
-                        </a>
-                    </div>
-                </div>
-                <p class="font-bold text-lg font-inika mb-1 text-gray-800">BASE COAT</p>
-                <p class="text-sm font-inika">
-                    <span class="line-through text-gray-500 mr-2">Rp 78.960</span>
-                    <span class="text-primary-dark font-bold">Rp 39.480</span>
-                </p>
-                <div class="text-yellow-500 mt-1 mb-2">
-                    <i class="fa-solid fa-star text-sm"></i>
-                    <span class="text-xs text-gray-700">4.9</span>
-                </div>
-            </div>
-
-            <div class="bg-white product-card p-2 text-center transition duration-300 hover:shadow-xl">
-                <div class="product-image-container">
-                    <span class="discount-badge">80%</span>
-                    <button class="add-to-cart-button" aria-label="Add to cart"><i class="fa-solid fa-plus"></i></button>
-                    <img src="<?= base_url('assets/top-coat.png') ?>" alt="Top Coat" class="w-full h-full object-cover">
-                    
-                    <div class="product-overlay">
-                        <a href="<?= site_url('accessories/detail_top_coat') ?>" class="detail-button">
-                            Detail Produk
-                        </a>
-                    </div>
-                </div>
-                <p class="font-bold text-lg font-inika mb-1 text-gray-800">TOP COAT</p>
-                <p class="text-sm font-inika">
-                    <span class="line-through text-gray-500 mr-2">Rp 149.950</span>
-                    <span class="text-primary-dark font-bold">Rp 29.046</span>
-                </p>
-                <div class="text-yellow-500 mt-1 mb-2">
-                    <i class="fa-solid fa-star text-sm"></i>
-                    <span class="text-xs text-gray-700">4.9</span>
-                </div>
-            </div>
-
-            <div class="bg-white product-card p-2 text-center transition duration-300 hover:shadow-xl">
-                <div class="product-image-container">
-                    <span class="discount-badge">12%</span>
-                    <button class="add-to-cart-button" aria-label="Add to cart"><i class="fa-solid fa-plus"></i></button>
-                    <img src="<?= base_url('assets/nail-polisher.png') ?>" alt="Nail Polisher" class="w-full h-full object-cover">
-                    
-                    <div class="product-overlay">
-                        <a href="<?= site_url('accessories/detail_nail_polisher') ?>" class="detail-button">
-                            Detail Produk
-                        </a>
-                    </div>
-                </div>
-                <p class="font-bold text-lg font-inika mb-1 text-gray-800">NAIL POLISHER</p>
-                <p class="text-sm font-inika">
-                    <span class="line-through text-gray-500 mr-2">Rp 49.000</span>
-                    <span class="text-primary-dark font-bold">Rp 43.120</span>
-                </p>
-                <div class="text-yellow-500 mt-1 mb-2">
-                    <i class="fa-solid fa-star text-sm"></i>
-                    <span class="text-xs text-gray-700">4.9</span>
-                </div>
-            </div>
-
-            <div class="bg-white product-card p-2 text-center transition duration-300 hover:shadow-xl">
-                <div class="product-image-container">
-                    <span class="discount-badge">57%</span>
-                    <button class="add-to-cart-button" aria-label="Add to cart"><i class="fa-solid fa-plus"></i></button>
-                    <img src="<?= base_url('assets/glitters.png') ?>" alt="Glitter" class="w-full h-full object-cover">
-                    
-                    <div class="product-overlay">
-                        <a href="<?= site_url('accessories/detail_glitter') ?>" class="detail-button">
-                            Detail Produk
-                        </a>
-                    </div>
-                </div>
-                <p class="font-bold text-lg font-inika mb-1 text-gray-800">GLITTER</p>
-                <p class="text-sm font-inika">
-                    <span class="line-through text-gray-500 mr-2">Rp 199.999</span>
-                    <span class="text-primary-dark font-bold">Rp 85.600</span>
-                </p>
-                <div class="text-yellow-500 mt-1 mb-2">
-                    <i class="fa-solid fa-star text-sm"></i>
-                    <span class="text-xs text-gray-700">4.9</span>
-                </div>
-            </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
         </div>
     </section>
+    
+    <script>
+        // Fungsi untuk menambahkan produk ke keranjang
+        function addToCart(productId, productName, price, imagePath) {
+            const isLoggedIn = <?= session()->has('logged_in') ? 'true' : 'false' ?>;
+            
+            if (!isLoggedIn) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Login Diperlukan',
+                    html: '<p>Silakan login terlebih dahulu untuk menambahkan produk ke keranjang.</p>',
+                    confirmButtonColor: '#A3485A',
+                    showCancelButton: true,
+                    confirmButtonText: '<i class="fa-solid fa-right-to-bracket mr-2"></i>Login Sekarang',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('btn-show-login-modal').click();
+                    }
+                });
+                return;
+            }
+            
+            if (typeof incrementCart === 'function') {
+                incrementCart('product_' + productId, {
+                    id: 'product_' + productId,
+                    name: productName,
+                    price: price,
+                    image: imagePath,
+                    qty: 1
+                });
+            } else {
+                console.error('Function incrementCart not found');
+            }
+        }
+    </script>
 <?= $this->endSection() ?>

@@ -1,0 +1,9 @@
+# Default Profile Image Placeholder
+
+Silakan tambahkan file gambar default dengan nama `default_profile.png` ke folder `public/assets/`.
+
+Atau Anda dapat menggunakan gambar placeholder dari layanan online seperti:
+- https://ui-avatars.com/api/?name=User&size=200&background=A3485A&color=fff
+- https://via.placeholder.com/200/A3485A/FFFFFF?text=User
+
+Atau buat file gambar default sendiri dengan ukuran 200x200px.

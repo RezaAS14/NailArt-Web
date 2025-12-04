@@ -13,310 +13,37 @@
         <div class="flex justify-center gap-4 mb-10" id="category-buttons">
             <button class="px-6 py-1 rounded-full shadow font-inika category-button active text-sm" data-category="easy" style="background-color: #A3485A; color: white;">Easy</button>
             
-            <button class="px-6 py-1 rounded-full shadow font-inika category-button text-sm" data-category="medium" style="background-color: #E6CFA9; color: black;">Medium</button>
+            <button class="px-6 py-1 rounded-full shadow font-inika category-button text-sm" data-category="medium" style="background-color: #DDDEAB; color: black;">Medium</button>
             
-            <button class="px-6 py-1 rounded-full shadow font-inika category-button text-sm" data-category="hard" style="background-color: #E6CFA9; color: black;">Hard</button>
+            <button class="px-6 py-1 rounded-full shadow font-inika category-button text-sm" data-category="hard" style="background-color: #DDDEAB; color: black;">Hard</button>
         </div>
 
         <div class="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6" id="design-gallery">
 
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card easy">
-                <div class="overflow-hidden rounded-t-xl"> <img src="<?= base_url('assets/nail_art_1.jpg') ?>" alt="Nail Art Design 1" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
+            <?php if (empty($models)): ?>
+                <div class="col-span-full text-center py-10">
+                    <p class="text-gray-500 text-lg">Belum ada desain model tersedia.</p>
                 </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl"> <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.70.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card easy">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_2.png') ?>" alt="Nail Art Design 2" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.65.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card easy">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_3.png') ?>" alt="Nail Art Design 3" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.65.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card easy">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_4.png') ?>" alt="Nail Art Design 4" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.65.000,00</p>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card easy"> 
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_5.png') ?>" alt="Nail Art Design 5" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.65.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card easy">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_6.png') ?>" alt="Nail Art Design 6" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.65.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card easy">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_7.png') ?>" alt="Nail Art Design 7" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.65.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card easy">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_8.png') ?>" alt="Nail Art Design 8" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.70.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card easy">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_9.png') ?>" alt="Nail Art Design 9" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.65.000,00</p>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card easy"> 
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_10.png') ?>" alt="Nail Art Design 10" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.65.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card medium">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_11.jpg') ?>" alt="Nail Art Design 11" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1,5 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.120.000,00</p>
+            <?php else: ?>
+                <?php foreach ($models as $model): ?>
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card <?= strtolower(esc($model['kategori_models'])) ?>">
+                        <div class="overflow-hidden rounded-t-xl">
+                            <img src="<?= base_url('uploads/models/' . esc($model['gambar_models'])) ?>" 
+                                 alt="<?= esc($model['kategori_models']) ?> Design" 
+                                 class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105"
+                                 onerror="this.src='<?= base_url('assets/placeholder.png') ?>'">
+                        </div>
+                        <div class="bg-card-info p-3 text-center rounded-b-xl">
+                            <p class="font-inika text-xs text-black">
+                                Kisaran Pengerjaan : <?= esc($model['durasi']) ?> Jam
+                            </p>
+                               <p class="font-inika text-xs mt-1">
+                                   Harga: <span class="font-black">Rp. <?= number_format($model['harga_models'], 0, ',', '.') ?></span>
+                               </p>
+                        </div>
                     </div>
-                </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card medium"> 
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_12.png') ?>" alt="Nail Art Design 12" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1,5 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.90.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card medium">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_13.png') ?>" alt="Nail Art Design 13" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1,5 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.90.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card medium">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_14.png') ?>" alt="Nail Art Design 14" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1,5 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.120.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card medium">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_15.png') ?>" alt="Nail Art Design 15" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1,5 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.120.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card medium">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_16.png') ?>" alt="Nail Art Design 16" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1,5 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.100.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card medium">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_17.png') ?>" alt="Nail Art Design 17" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1,5 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.90.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card medium">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_18.png') ?>" alt="Nail Art Design 18" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1,5 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.100.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card medium">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_19.png') ?>" alt="Nail Art Design 19" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1,5 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.100.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card medium">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_20.png') ?>" alt="Nail Art Design 20" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 1,5 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.100.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card hard">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_21.png') ?>" alt="Nail Art Design 21" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 2,3 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.160.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card hard">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_22.png') ?>" alt="Nail Art Design 22" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 2,3 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.160.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card hard">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_23.png') ?>" alt="Nail Art Design 23" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 2,3 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.160.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card hard">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_24.png') ?>" alt="Nail Art Design 24" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 2,3 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.160.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card hard">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_25.png') ?>" alt="Nail Art Design 25" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 2,3 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.160.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card hard">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_26.png') ?>" alt="Nail Art Design 26" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 5 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.250.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card hard">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_27.png') ?>" alt="Nail Art Design 27" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 2 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.150.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card hard">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_28.png') ?>" alt="Nail Art Design 28" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 3 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.180.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card hard">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_29.png') ?>" alt="Nail Art Design 29" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 2,3 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.160.000,00</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden group design-card hard">
-                <div class="overflow-hidden rounded-t-xl">
-                    <img src="<?= base_url('assets/nail_art_30.png') ?>" alt="Nail Art Design 30" class="w-full h-48 object-cover transform transition duration-300 group-hover:scale-105">
-                </div>
-                <div class="bg-card-info p-3 text-center rounded-b-xl">
-                    <p class="font-inika text-xs text-black">Kisaran Pengerjaan : 2,3 Jam</p>
-                    <p class="font-inika text-sm font-bold text-black">Harga : Rp.170.000,00</p>
-                </div>
-            </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
         </div>
     </section>
@@ -326,7 +53,7 @@
         const categoryButtons = document.querySelectorAll('.category-button');
         const designCards = document.querySelectorAll('.design-card');
         
-        // 1. Tambahkan CSS untuk menyembunyikan/menampilkan kartu
+        // 1. Tambahkan CSS untuk menyembunyikan/menampilkan kartu dan hover effect
         const style = document.createElement('style');
         style.textContent = `
             .design-card {
@@ -335,6 +62,13 @@
             .design-card.active-display {
                 display: block; /* Tampilkan yang aktif */
                 /* Karena container menggunakan grid, display: block akan membuatnya tetap mengikuti flow grid */
+            }
+            .category-button {
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+            .category-button:hover {
+                background-color: #A3485A !important;
+                color: white !important;
             }
         `;
         document.head.appendChild(style);
@@ -345,7 +79,7 @@
          */
         function filterDesigns(category) {
             const activeBg = '#A3485A'; // primary-dark
-            const inactiveBg = '#E6CFA9'; // testing-bg
+            const inactiveBg = '#DDDEAB'; // inactive background
 
             // 1. Perbarui status tombol aktif
             categoryButtons.forEach(button => {
@@ -383,7 +117,7 @@
                 button.style.backgroundColor = '#A3485A'; // primary-dark
                 button.style.color = 'white'; 
             } else {
-                button.style.backgroundColor = '#E6CFA9'; // testing-bg
+                button.style.backgroundColor = '#DDDEAB'; // inactive background
                 button.style.color = 'black'; 
             }
         });

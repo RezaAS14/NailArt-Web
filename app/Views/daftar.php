@@ -17,6 +17,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Kapakana:wght@400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inika:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         tailwind.config = {
@@ -117,7 +118,7 @@
         
         <h1 class="register-title">RENA_ILS04</h1>
 
-        <form action="#" method="POST" class="space-y-4">
+        <form action="<?= site_url('auth/do_register') ?>" method="POST" class="space-y-4">
             
             <div class="flex space-x-6"> 
                 <div class="flex-1">
@@ -125,12 +126,14 @@
                     <input type="text" id="nama_depan" name="nama_depan" 
                             class="input-field" 
                             placeholder="Masukkan Nama Depan Anda"
+                            value="<?= old('nama_depan') ?>"
                             required> </div>
                 <div class="flex-1">
                     <label for="nama_belakang" class="block input-label">Nama Belakang</label>
                     <input type="text" id="nama_belakang" name="nama_belakang" 
                             class="input-field"
-                            placeholder="Masukkan Nama Belakang Anda">
+                            placeholder="Masukkan Nama Belakang Anda"
+                            value="<?= old('nama_belakang') ?>">
                 </div>
             </div>
 
@@ -139,6 +142,7 @@
                 <input type="text" id="username" name="username" 
                         class="input-field" 
                         placeholder="Buat Username"
+                        value="<?= old('username') ?>"
                         required> </div>
 
             <div>
@@ -146,12 +150,14 @@
                 <input type="email" id="email" name="email" 
                         class="input-field" 
                         placeholder="cth: namaanda@email.com"
+                        value="<?= old('email') ?>"
                         required> </div>
 
             <div>
                 <label for="tanggal_lahir" class="block input-label">Tanggal Lahir</label>
                 <input type="date" id="tanggal_lahir" name="tanggal_lahir" 
                         class="input-field"
+                        value="<?= old('tanggal_lahir') ?>"
                         required> </div>
 
             <div>
@@ -162,8 +168,14 @@
                     <input type="tel" id="nomor_handphone" name="nomor_handphone" 
                             class="input-field rounded-l-none" 
                             placeholder="cth: 81234567890"
+                            value="<?= old('nomor_handphone') ?>"
                             style="margin-bottom: 15px; border-top-left-radius: 0; border-bottom-left-radius: 0;" 
                             required> </div>
+            </div>
+
+            <div>
+                <label for="alamat" class="block input-label">Alamat</label>
+                <textarea id="alamat" name="alamat" class="input-field" placeholder="Masukkan alamat lengkap Anda" rows="3" style="resize: vertical; min-height: 90px;"><?= old('alamat') ?></textarea>
             </div>
             
             <div>
@@ -184,6 +196,40 @@
             </a>
         </div>
         </div>
+
+    <?php if (session()->getFlashdata('register_success')): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Pendaftaran Berhasil!',
+                    text: '<?= session()->getFlashdata('register_success') ?>',
+                    icon: 'success',
+                    confirmButtonText: 'Login Sekarang',
+                    confirmButtonColor: '#A3485A',
+                    timer: 5000,
+                    timerProgressBar: true
+                }).then((result) => {
+                    if (result.isConfirmed || result.isDismissed) {
+                        window.location.href = '<?= site_url('/') ?>';
+                    }
+                });
+            });
+        </script>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('register_error')): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Pendaftaran Gagal!',
+                    text: '<?= session()->getFlashdata('register_error') ?>',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#A3485A'
+                });
+            });
+        </script>
+    <?php endif; ?>
 
 </body>
 </html>

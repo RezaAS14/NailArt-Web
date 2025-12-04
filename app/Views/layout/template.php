@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Kapakana:wght@400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inika:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         tailwind.config = {
@@ -22,10 +23,10 @@
                 extend: {
                     colors: {
                         'primary-dark': '#A3485A', // Warna utama (Navbar, Footer, Modal focus)
-                        'nav-hover': '#A31111',    // Warna hover Navbar
+                        'nav-hover': '#A31111',    // Warna hover Navbar
                         'nav-inactive': '#D1A5AE', // Warna tombol Navbar yang tidak aktif
-                        'menu-bg': '#A3485A',      // Warna latar belakang menu (Tidak terpakai)
-                        'menu-hover': '#A3485A',   // Warna hover menu (Tidak terpakai)
+                        'menu-bg': '#A3485A',      // Warna latar belakang menu (Tidak terpakai)
+                        'menu-hover': '#A3485A',   // Warna hover menu (Tidak terpakai)
                         'testing-bg': '#E6CFA9', // WARNA LATAR BELAKANG DESKRIPSI (Permintaan User)
                         // Tambahkan warna latar belakang yang digunakan di body atau section (jika perlu nama khusus)
                         'bg-light-yellow': '#FEF3E2', // Mengambil warna dari body (asumsi: FEF3E2)
@@ -33,7 +34,7 @@
                     },
                     fontFamily: {
                         kapakana: ['Kapakana', 'cursive'], // Font untuk judul
-                        inika: ['Inika', 'serif'],        // Font untuk teks biasa
+                        inika: ['Inika', 'serif'],         // Font untuk teks biasa
                     }
                 }
             },
@@ -320,8 +321,8 @@
         .product-detail-image-container {
             position: relative;
             /* Dibuat agar proporsional mirip gambar referensi */
-            width: 200px; /* Lebar tetap untuk desktop */
-            height: 200px; /* Tinggi tetap untuk desktop */
+            width: 400px; /* Lebar tetap untuk desktop */
+            height: 400px; /* Tinggi tetap untuk desktop */
             overflow: hidden;
             border-radius: 0.5rem;
             border: 1px solid #D1A5AE; /* Border ringan */
@@ -362,8 +363,8 @@
         /* Responsif untuk gambar (agar tidak terlalu besar di mobile) */
         @media (max-width: 767px) {
             .product-detail-image-container {
-                width: 150px; /* Lebih kecil di mobile */
-                height: 150px;
+                width: 250px; /* Lebih kecil di mobile */
+                height: 250px;
                 margin: 0 auto; /* Tengah di mobile */
             }
             .detail-card {
@@ -405,27 +406,27 @@
 
             <nav class="flex space-x-4" id="main-nav-links">
                 <a href="<?= site_url('/') ?>"
-                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300"
+                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300 bg-nav-inactive"
                     data-path="/">
                     Beranda
                 </a>
                 <a href="<?= site_url('gallery') ?>" 
-                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300"
+                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300 bg-nav-inactive"
                     data-path="gallery">
                     Gallery
                 </a>
                 <a href="<?= site_url('about') ?>" 
-                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300"
+                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300 bg-nav-inactive"
                     data-path="about">
                     About Us
                 </a>
                 <a href="<?= site_url('models') ?>" 
-                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300"
+                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300 bg-nav-inactive"
                     data-path="models">
                     Models
                 </a>
                 <a href="<?= site_url('accessories') ?>" 
-                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300"
+                    class="px-5 py-2 rounded-full text-white custom-navbar-shadow text-sm hover:bg-nav-hover transition duration-300 bg-nav-inactive"
                     data-path="accessories">
                     Accessories
                 </a>
@@ -434,18 +435,22 @@
                 <a href="https://wa.me/6285760549969?text=Kak%20saya%20mau%20bertanya%F0%9F%99%8F" target="_blank" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200"><i class="fa-brands fa-whatsapp"></i></a>
                 <a href="https://www.instagram.com/rena_ils04" target="_blank" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200"><i class="fa-brands fa-instagram"></i></a>
                 
-                <a href="<?= site_url('keranjang') ?>" id="cart-link" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200 relative">
+                <a href="<?php echo session()->has('logged_in') ? site_url('keranjang') : '#'; ?>" id="cart-link" 
+                   class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200 relative"
+                   data-path="keranjang"
+                   title="Keranjang Belanja"
+                   <?php if (!session()->has('logged_in')): ?>onclick="event.preventDefault(); showLoginRequiredAlert();"<?php endif; ?>>
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span id="cart-count-badge" class="cart-badge hidden">0</span>
                 </a>
                 <div id="user-container" class="relative">
-                    <a href="#" id="user-trigger" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200">
+                    <a href="#" id="user-trigger" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200 <?= session()->has('logged_in') ? '' : 'hidden' ?>">
                         <i class="fa-solid fa-user"></i>
                     </a>
 
-                    <div id="user-dropdown-menu" class="absolute right-0 mt-2 w-36 bg-white rounded-lg menu-shadow z-50 p-1 hidden border border-gray-200">
+                    <div id="user-dropdown-menu" class="absolute right-0 mt-2 w-40 bg-white rounded-lg menu-shadow z-50 p-1 hidden border border-gray-200">
                         <button id="btn-profile" class="w-full text-center py-2 px-3 rounded-md bg-white text-primary-dark hover:bg-nav-hover hover:text-white transition duration-200 flex items-center text-sm font-semibold shadow-sm">
-                            <i class="fa-solid fa-user mr-2"></i> PROFILE
+                            <i class="fa-solid fa-user mr-2"></i> PROFIL
                         </button>
                         
                         <button id="btn-logout" class="w-full text-center mt-1 py-2 px-3 rounded-md bg-white text-primary-dark hover:bg-nav-hover hover:text-white transition duration-200 flex items-center text-sm font-semibold shadow-sm">
@@ -453,7 +458,7 @@
                         </button>
                     </div>
 
-                    <a href="#" id="btn-show-login-modal" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200 hidden" title="Login">
+                    <a href="#" id="btn-show-login-modal" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary-dark shadow hover:shadow-lg active:shadow-inner active:bg-gray-100 transition duration-200 <?= session()->has('logged_in') ? 'hidden' : '' ?>" title="Login">
                         <i class="fa-solid fa-arrow-right-to-bracket"></i>
                     </a>
                 </div>
@@ -467,14 +472,7 @@
     <?= $this->renderSection('about') ?>
     <?= $this->renderSection('models') ?>
     <?= $this->renderSection('accessories') ?>
-    <?= $this->renderSection('detail_base_coat') ?>
-    <?= $this->renderSection('detail_cuticle_nipper') ?>
-    <?= $this->renderSection('detail_cuticle_pusher') ?>
-    <?= $this->renderSection('detail_glitter') ?>
-    <?= $this->renderSection('detail_nail_brush') ?>
-    <?= $this->renderSection('detail_nail_file') ?>
-    <?= $this->renderSection('detail_nail_polisher') ?>
-    <?= $this->renderSection('detail_top_coat') ?>
+    <?= $this->renderSection('detail_accessory') ?>
     <?= $this->renderSection('profil') ?>
     <?= $this->renderSection('keranjang') ?>
 
@@ -511,16 +509,16 @@
         <div id="login-modal" class="bg-[#F3EFE9] w-full max-w-md p-6 rounded-3xl shadow-2xl relative border-2 border-primary-dark" style="transform: scale(0.9); transition: transform 0.3s ease;">
             
             <h3 class="text-xl font-inika font-bold text-center mb-6 text-primary-dark">
-                RENA_ILS04
+                LOGIN RENA_ILS04
             </h3>
 
-            <form id="login-form" class="space-y-4">
+            <form id="login-form" action="<?= site_url('auth/do_login') ?>" method="POST" class="space-y-4">
                 
                 <div>
-                    <label for="modal-email" class="block text-sm font-inika font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" id="modal-email" name="email" required
+                    <label for="modal-email" class="block text-sm font-inika font-medium text-gray-700 mb-1">Email / Username</label>
+                    <input type="text" id="modal-email" name="identifier" required
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary-dark focus:border-primary-dark sm:text-sm bg-white" 
-                            placeholder="Masukkan email Anda">
+                            placeholder="Masukkan Email atau Username" value="<?= old('identifier') ?>">
                 </div>
 
                 <div>
@@ -536,6 +534,15 @@
                         </button>
                     </div>
                 </div>
+
+                <?php if (session()->getFlashdata('login_error')): ?>
+                    <div id="login-message-server" class="text-center text-red-600 text-sm font-semibold">
+                        <?= session()->getFlashdata('login_error') ?>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', openModal);
+                    </script>
+                <?php endif; ?>
 
                 <div id="login-message" class="text-center text-red-600 hidden text-sm font-semibold"></div>
 
@@ -558,44 +565,132 @@
         </div>
     </div>
 
+    <?php if (session()->getFlashdata('login_success_message')): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Login Berhasil!',
+                    html: '<p class="text-lg">Selamat datang <strong><?= session()->getFlashdata('username') ?></strong></p>',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#A3485A',
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            });
+        </script>
+    <?php endif; ?>
+    
+    <?php if (session()->getFlashdata('login_error')): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Login Gagal!',
+                    text: '<?= session()->getFlashdata('login_error') ?>',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#A3485A'
+                });
+            });
+        </script>
+    <?php endif; ?>
+    
+    <?php if (session()->getFlashdata('is_logged_out')): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Logout Berhasil',
+                    text: 'Anda telah keluar dari sistem.',
+                    icon: 'info',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#A3485A',
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            });
+        </script>
+    <?php endif; ?>
+    
     <script>
-        // --- FUNGSI NAV ACTIVE (PENGATURAN TITLE DIHAPUS) ---
+        // --- FUNGSI NAV ACTIVE (REVISI FINAL) ---
         
         /**
          * Menentukan tautan navigasi mana yang aktif dan memperbarui tampilannya.
          */
         function setActiveNavAndTitle() {
             const navLinksContainer = document.getElementById('main-nav-links');
-            if (!navLinksContainer) return; 
+            // Ambil semua tautan di main-nav-links
+            const mainNavLinks = navLinksContainer ? navLinksContainer.querySelectorAll('a') : [];
             
-            const navLinks = navLinksContainer.querySelectorAll('a');
+            // Ambil tautan keranjang secara terpisah
+            const cartLink = document.getElementById('cart-link');
+            
+            // Gabungkan semua tautan yang perlu dicek status aktifnya
+            const allNavLinks = [...mainNavLinks];
+            if (cartLink) {
+                allNavLinks.push(cartLink);
+            }
+            
             const currentPath = window.location.pathname.replace(/^\/|\/$/g, ''); 
             
-            navLinks.forEach(link => {
-                const linkPath = link.getAttribute('data-path').replace(/^\/|\/$/g, '');
+            allNavLinks.forEach(link => { 
+                const linkPath = link.getAttribute('data-path') ? link.getAttribute('data-path').replace(/^\/|\/$/g, '') : '';
                 
                 const isHome = (currentPath === '' && linkPath === ''); 
-
-                // Logika untuk mencocokkan tautan aktif
+                // Logic aktif: (Home) ATAU (Path saat ini dimulai dengan linkPath DAN linkPath bukan kosong)
                 const isActive = isHome || (currentPath !== '' && currentPath.startsWith(linkPath) && linkPath !== '');
                 
-                // Atur class
-                if (isActive) {
-                    link.classList.remove('bg-nav-inactive');
-                    link.classList.add('bg-nav-hover');
-                    link.classList.add('font-medium'); 
-                    link.classList.add('text-white');
-                } else {
-                    link.classList.remove('bg-nav-hover', 'font-medium');
-                    link.classList.add('bg-nav-inactive');
-                    link.classList.add('text-white');
+                // --- LOGIKA UTAMA NAVIGASI (Beranda, Gallery, About Us, Models, Accessories) ---
+                if (link.parentElement && link.parentElement.id === 'main-nav-links') {
+                    // Hapus kedua kelas warna agar hanya satu yang diterapkan
+                    link.classList.remove('bg-nav-inactive', 'bg-nav-hover');
+
+                    if (isActive) {
+                        // Nav Aktif: Warna nav-hover (Merah Gelap)
+                        link.classList.add('bg-nav-hover');
+                        link.classList.add('font-medium'); 
+                    } else {
+                        // Nav Tidak Aktif: Warna nav-inactive (Pink Muda) - DEFAULT
+                        link.classList.add('bg-nav-inactive');
+                        link.classList.remove('font-medium');
+                    }
+                    link.classList.add('text-white'); 
+
+                // --- LOGIKA TOMBOL KERANJANG ---
+                } else if (link.id === 'cart-link') {
+                    const cartIcon = link.querySelector('i');
+
+                    if (isActive) {
+                        // Keranjang Aktif: Background nav-hover (Merah Gelap)
+                        link.classList.remove('bg-white', 'text-primary-dark', 'active:bg-gray-100');
+                        link.classList.add('bg-nav-hover');
+                        
+                        // Pastikan ikon berwarna putih
+                        if (cartIcon) {
+                            cartIcon.classList.add('text-white');
+                            cartIcon.classList.remove('text-primary-dark');
+                        }
+                    } else {
+                        // Keranjang Tidak Aktif (Default): Background putih
+                        link.classList.remove('bg-nav-hover');
+                        link.classList.add('bg-white', 'text-primary-dark', 'active:bg-gray-100');
+                        
+                        // Pastikan ikon berwarna primary-dark
+                        if (cartIcon) {
+                            cartIcon.classList.add('text-primary-dark');
+                            cartIcon.classList.remove('text-white');
+                        }
+                    }
                 }
+                
             });
         }
+
 
         // --- FUNGSI MODAL ---
         const modalOverlay = document.getElementById('login-modal-overlay');
         const modalBox = document.getElementById('login-modal');
+        const loginMessageDiv = document.getElementById('login-message'); // Ambil elemen pesan umum
 
         /** Membuka modal dengan animasi scale. */
         function openModal() {
@@ -603,41 +698,48 @@
             setTimeout(() => { modalBox.style.transform = 'scale(1)'; }, 10);
         }
 
-        /** Menutup modal dengan animasi scale dan menyembunyikan pesan error. */
+        /** Menutup modal dengan animasi scale dan menyembunyikan pesan error/logout. */
         function closeModal() {
             modalBox.style.transform = 'scale(0.9)';
             setTimeout(() => { modalOverlay.classList.add('hidden'); }, 300);
-            document.getElementById('login-message').classList.add('hidden'); 
+            
+            // Menonaktifkan pesan error lokal dan dari server/logout saat menutup
+            loginMessageDiv.classList.add('hidden'); 
+            loginMessageDiv.textContent = ''; // Kosongkan pesan
+            loginMessageDiv.classList.remove('text-green-600'); 
+            loginMessageDiv.classList.add('text-red-600'); 
+
+            const serverMsg = document.getElementById('login-message-server');
+            if (serverMsg) { serverMsg.classList.add('hidden'); }
         }
         
-        // --- FUNGSI LOGIN / LOGOUT ---
-        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        // --- FUNGSI LOGIN / LOGOUT (Diatur oleh PHP Session) ---
+        // Menentukan status login berdasarkan PHP Session
+        const isLoggedIn = <?= session()->has('logged_in') ? 'true' : 'false' ?>;
+        const userRole = '<?= session()->get('role') ?? 'guest' ?>';
 
-        /** Handle submit form login (Dummy Logic). */
-        function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('modal-email').value;
-            const password = document.getElementById('modal-password').value;
-            const messageElement = document.getElementById('login-message');
-
-            // --- DUMMY LOGIN LOGIC ---
-            // Kredensial: tes@gmail.com / 123
-            if (email === 'tes@gmail.com' && password === '123') {
-                localStorage.setItem('isLoggedIn', 'true');
-                alert('Login Berhasil!');
-                closeModal();
-                window.location.reload(); 
-            } else {
-                messageElement.textContent = 'Email atau Password salah. (Coba: tes@gmail.com / 123)';
-                messageElement.classList.remove('hidden');
-            }
-        }
 
         /** Handle logout. */
         function handleLogout() {
-            localStorage.removeItem('isLoggedIn');
-            alert('Anda telah Logout!');
-            window.location.reload(); 
+            // Arahkan ke Controller Auth::logout
+            window.location.href = '<?= site_url("auth/logout") ?>'; 
+        }
+        
+        /** Show login required alert for cart */
+        function showLoginRequiredAlert() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Login Diperlukan',
+                html: '<p>Silakan login terlebih dahulu untuk mengakses keranjang belanja.</p>',
+                confirmButtonColor: '#A3485A',
+                showCancelButton: true,
+                confirmButtonText: '<i class="fa-solid fa-right-to-bracket mr-2"></i>Login Sekarang',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    openModal();
+                }
+            });
         }
 
         // --- FUNGSI TOGGLE PASSWORD ---
@@ -661,34 +763,11 @@
         const cartCountBadge = document.getElementById('cart-count-badge');
         const cartLink = document.getElementById('cart-link');
 
-        // Data dummy produk (Harus sama dengan data di keranjang.php)
-        const dummyProducts = [
-            { id: 'nail_file', name: 'NAIL FILE', price: 10900, qty: 0, image: 'assets/nail-file.png' },
-            { id: 'cuticle_nipper', name: 'CUTICLE NIPPER', price: 92000, qty: 0, image: 'assets/cuticle-nipper.png' },
-            { id: 'cuticle_pusher', name: 'CUTICLE PUSHER', price: 3000, qty: 0, image: 'assets/cuticle-pusher.png' },
-            { id: 'nail_brush', name: 'NAIL BRUSH', price: 29000, qty: 0, image: 'assets/nail-brush.png' },
-            { id: 'base_coat', name: 'BASE COAT', price: 39480, qty: 0, image: 'assets/base-coat.png' },
-            { id: 'top_coat', name: 'TOP COAT', price: 29046, qty: 0, image: 'assets/top-coat.png' },
-            { id: 'nail_polisher', name: 'NAIL POLISHER', price: 43120, qty: 0, image: 'assets/nail-polisher.png' },
-            { id: 'glitters', name: 'GLITTER', price: 85600, qty: 0, image: 'assets/glitters.png' },
-        ];
-
         /** Mengambil data keranjang dari localStorage. */
         function getCartData() {
             const data = localStorage.getItem('cartItems');
-            // Jika tidak ada data, kembalikan array kosong (atau array dengan 1 item default jika ini adalah load pertama)
-            if (!data || data === '[]' || JSON.parse(data).length === 0) {
-                 // Simulasi: Masukkan 1 item Cuticle Pusher, 0 Nail File, 0 Cuticle Nipper jika keranjang kosong
-                 if (window.location.pathname.includes('keranjang')) {
-                    const initialItems = [
-                         { id: 'nail_file', name: 'NAIL FILE', price: 10900, qty: 0, image: '<?= base_url('assets/nail-file.png') ?>' },
-                         { id: 'cuticle_nipper', name: 'CUTICLE NIPPER', price: 92000, qty: 0, image: '<?= base_url('assets/cuticle-nipper.png') ?>' },
-                         { id: 'cuticle_pusher', name: 'CUTICLE PUSHER', price: 3000, qty: 1, image: '<?= base_url('assets/cuticle-pusher.png') ?>' }
-                     ];
-                     localStorage.setItem('cartItems', JSON.stringify(initialItems));
-                     return initialItems;
-                 }
-                 return [];
+            if (!data || data === '[]') {
+                return [];
             }
             return JSON.parse(data);
         }
@@ -701,48 +780,124 @@
 
         /** Memperbarui tampilan badge keranjang (dibuat global). */
         function updateCartBadge() {
-            const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
-            const count = items.reduce((sum, item) => sum + item.qty, 0);
-            cartCountBadge.textContent = count;
-            if (count > 0) {
-                cartCountBadge.classList.remove('hidden');
+            const isLoggedIn = <?= session()->has('logged_in') ? 'true' : 'false' ?>;
+            
+            if (isLoggedIn) {
+                // Jika user login, ambil dari server
+                fetch('<?= site_url('cart/get') ?>')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const count = data.items.reduce((sum, item) => sum + parseInt(item.jumlah_keranjang), 0);
+                            cartCountBadge.textContent = count;
+                            if (count > 0) {
+                                cartCountBadge.classList.remove('hidden');
+                            } else {
+                                cartCountBadge.classList.add('hidden');
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error updating cart badge:', error));
             } else {
-                cartCountBadge.classList.add('hidden');
+                // Jika guest, ambil dari localStorage
+                const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
+                const count = items.reduce((sum, item) => sum + item.qty, 0);
+                cartCountBadge.textContent = count;
+                if (count > 0) {
+                    cartCountBadge.classList.remove('hidden');
+                } else {
+                    cartCountBadge.classList.add('hidden');
+                }
             }
         }
 
         /** Menambah 1 kuantitas produk ke keranjang (dipanggil dari tombol plus di accessories). */
         function incrementCart(productId, productDetails) {
-            let items = JSON.parse(localStorage.getItem('cartItems') || '[]');
-            let existingItem = items.find(item => item.id === productId);
-
-            // Cek apakah item sudah ada, dan jika ada, cek apakah kuantitas > 0
-            if (existingItem && existingItem.qty > 0) {
-                existingItem.qty += 1;
+            const isLoggedIn = <?= session()->has('logged_in') ? 'true' : 'false' ?>;
+            
+            if (isLoggedIn) {
+                // Jika user login, kirim ke server via AJAX
+                const realProductId = productId.replace('product_', '');
+                
+                fetch('<?= site_url('cart/add') ?>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: new URLSearchParams({
+                        '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
+                        'product_id': realProductId,
+                        'quantity': 1
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: data.message,
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true
+                        });
+                        updateCartBadge();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: data.message,
+                            confirmButtonColor: '#A3485A'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat menambahkan produk',
+                        confirmButtonColor: '#A3485A'
+                    });
+                });
             } else {
-                 // Jika tidak ada atau qty 0, buat/perbarui
-                const productFound = dummyProducts.find(p => p.id === productId);
-                if (productFound) {
-                     const imagePath = `<?= base_url() ?>${productFound.image}`;
-                     if (existingItem) {
+                // Jika guest, simpan di localStorage
+                let items = getCartData();
+                let existingItem = items.find(item => item.id === productId);
+
+                if (existingItem && existingItem.qty > 0) {
+                    existingItem.qty += 1;
+                } else {
+                    if (existingItem) {
                         existingItem.qty = 1;
-                        existingItem.image = imagePath; // Update image path
-                     } else {
+                    } else {
                         items.push({ 
                             id: productId, 
                             name: productDetails.name, 
                             price: productDetails.price, 
-                            image: imagePath, 
+                            image: productDetails.image, 
                             qty: 1 
                         });
-                     }
+                    }
                 }
+                
+                items = items.filter(item => item.qty > 0);
+                saveCartData(items);
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: 'Produk ditambahkan ke keranjang',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true
+                });
             }
-            
-            // Hapus item dengan qty 0
-            items = items.filter(item => item.qty > 0);
-
-            saveCartData(items);
         }
 
         // --- INICIALISASI TAMPILAN DAN EVENT LISTENERS ---
@@ -754,9 +909,7 @@
             const btnLogout = document.getElementById('btn-logout');
             const closeButton = document.getElementById('close-login-modal');
             const togglePasswordButton = document.getElementById('toggle-password');
-            
-            // Ambil semua tombol plus di halaman accessories
-            const addToCartButtons = document.querySelectorAll('.add-to-cart-button'); 
+            const btnProfile = document.getElementById('btn-profile');
 
             // Panggil fungsi untuk mengatur nav active
             setActiveNavAndTitle();
@@ -764,32 +917,10 @@
             updateCartBadge(); 
 
             // Event Listener untuk tombol Add to Cart (di accessories.php)
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const productCard = button.closest('.product-card');
-                    if (!productCard) return;
-
-                    const allCards = Array.from(document.querySelectorAll('.product-card'));
-                    const productIndex = allCards.indexOf(productCard);
-
-                    const productData = dummyProducts[productIndex]; 
-                    
-                    if (productData) {
-                        incrementCart(productData.id, productData); 
-                    } else {
-                        console.error('Data produk tidak ditemukan untuk indeks ini:', productIndex);
-                        alert('Error: Data produk tidak ditemukan untuk ditambahkan ke keranjang.');
-                    }
-                });
-            });
-
+            // Tidak ada lagi karena sekarang menggunakan onclick di accessoris.php
 
             if (isLoggedIn) {
-                // Tampilan SETELAH LOGIN: Tampilkan ikon user, sembunyikan ikon login
-                userTrigger.classList.remove('hidden'); 
-                btnShowLoginModal.classList.add('hidden'); 
+                // Tampilan SETELAH LOGIN: Ikon user dan dropdown terlihat
                 
                 // Toggle dropdown menu
                 userTrigger.addEventListener('click', function(e) {
@@ -809,8 +940,7 @@
                     }
                 });
 
-                // Profile link (Arahkan ke URL CodeIgniter)
-                const btnProfile = document.getElementById('btn-profile');
+                // Profile link: Semua diarahkan ke /profil
                 if (btnProfile) {
                     btnProfile.addEventListener('click', function() {
                         window.location.href = '<?= site_url("profil") ?>';
@@ -819,9 +949,7 @@
 
 
             } else {
-                // Tampilan SEBELUM LOGIN: Sembunyikan ikon user, tampilkan ikon login
-                userTrigger.classList.add('hidden'); 
-                btnShowLoginModal.classList.remove('hidden'); 
+                // Tampilan SEBELUM LOGIN: Tombol login terlihat
                 
                 // Show modal event
                 btnShowLoginModal.addEventListener('click', function(e) {
@@ -829,10 +957,7 @@
                     openModal();
                 });
                 
-                // Login form submit event
-                if (loginForm) {
-                    loginForm.addEventListener('submit', handleLogin);
-                }
+                // Form submit event tidak perlu lagi di-handle oleh JS, biarkan form POST ke controller
             }
             
             // Event Listener untuk Toggle Password
