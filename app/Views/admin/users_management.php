@@ -30,7 +30,7 @@
         <div class="flex flex-col md:flex-row gap-4 mb-4">
             <input type="text" id="searchUserInput" class="border rounded px-3 py-2 w-full md:w-1/3" placeholder="Cari nama, username, email..." oninput="filterUserTable()">
             <select id="filterUserRole" class="border rounded px-3 py-2 w-full md:w-1/4" onchange="filterUserTable()">
-                <option value="">Filter Role</option>
+                <option value="">Semua Role</option>
                 <option value="admin">Admin</option>
                 <option value="user">User</option>
             </select>
@@ -95,15 +95,12 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                    <?php if (esc($user['role']) == 'user') : ?>
-                                        <a href="<?= site_url('admin/user/delete/' . esc($user['id_user'])) ?>" 
-                                           onclick="return confirm('Anda yakin ingin menghapus user ini?')" 
-                                           class="text-red-600 hover:text-red-900 mx-1" title="Hapus">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
-                                    <?php else : ?>
-                                        <span class="text-gray-400 text-xs">Admin - Protected</span>
-                                    <?php endif; ?>
+                                    <a href="<?= site_url('admin/users/delete/' . esc($user['id_user'])) ?>" 
+                                       onclick="return confirm('Anda yakin ingin menghapus user <?= esc($user['username']) ?>?')" 
+                                       class="text-red-600 hover:text-red-900 mx-1" 
+                                       title="Hapus">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -117,20 +114,50 @@
 <script>
 function filterUserTable() {
     const search = document.getElementById('searchUserInput').value.toLowerCase();
-    const role = document.getElementById('filterUserRole').value;
+    const role = document.getElementById('filterUserRole').value.toLowerCase();
     const table = document.getElementById('usersTable');
     const rows = table.querySelectorAll('tbody tr');
+    let visibleRows = 0;
     
     rows.forEach(row => {
-        let text = row.innerText.toLowerCase();
-        let roleText = row.querySelector('span')?.innerText.toLowerCase() || '';
+        // Skip empty state row
+        if (row.cells.length === 1 || row.querySelector('td[colspan]')) {
+            return;
+        }
+        
+        // Get all text content for searching
+        const username = row.querySelector('td:nth-child(3)')?.innerText.toLowerCase() || '';
+        const nama = row.querySelector('td:nth-child(4)')?.innerText.toLowerCase() || '';
+        const email = row.querySelector('td:nth-child(8)')?.innerText.toLowerCase() || '';
+        const searchText = username + ' ' + nama + ' ' + email;
+        
+        // Get role from the role badge
+        const roleSpan = row.querySelector('td:nth-child(9) span');
+        const roleText = roleSpan ? roleSpan.innerText.toLowerCase().trim() : '';
+        
         let show = true;
         
-        if (search && !text.includes(search)) show = false;
-        if (role && roleText !== role) show = false;
+        // Search filter
+        if (search && !searchText.includes(search)) {
+            show = false;
+        }
+        
+        // Role filter
+        if (role && roleText !== role) {
+            show = false;
+        }
         
         row.style.display = show ? '' : 'none';
+        if (show) visibleRows++;
     });
+    
+    // Show or hide empty state
+    const emptyState = table.querySelector('tbody tr td[colspan]');
+    if (emptyState && visibleRows === 0) {
+        emptyState.parentElement.style.display = '';
+    } else if (emptyState) {
+        emptyState.parentElement.style.display = 'none';
+    }
 }
 </script>
 

@@ -8,6 +8,7 @@ use App\Models\ModelsModel;
 use App\Models\KeranjangModel;
 use App\Models\CheckoutModel;
 use App\Models\DetailCheckoutModel;
+use App\Models\PesananModel;
 use App\Models\UserModel;
 
 class Home extends BaseController
@@ -116,6 +117,33 @@ class Home extends BaseController
         $userId = session()->get('id_user');
         
         $keranjangModel = new KeranjangModel();
+        $accessoriesModel = new AccessoriesModel();
+        
+        // Check existing cart quantity
+        $existingCart = $keranjangModel->where('id_user', $userId)
+                                       ->where('id_produk', $productId)
+                                       ->first();
+        
+        $currentCartQty = $existingCart ? $existingCart['jumlah_keranjang'] : 0;
+        $newTotalQty = $currentCartQty + $quantity;
+        
+        // Validate stock availability
+        if (!$accessoriesModel->checkStock($productId, $newTotalQty)) {
+            $product = $accessoriesModel->find($productId);
+            $availableStock = $product['stok_tersedia'] ?? 0;
+            
+            if ($availableStock == 0) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Stok habis untuk produk ini'
+                ]);
+            }
+            
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => "Stok tidak mencukupi. Tersedia: {$availableStock}, di keranjang: {$currentCartQty}"
+            ]);
+        }
         
         if ($keranjangModel->addOrUpdateCart($userId, $productId, $quantity)) {
             return $this->response->setJSON([
@@ -170,6 +198,25 @@ class Home extends BaseController
         $userId = session()->get('id_user');
         
         $keranjangModel = new KeranjangModel();
+        $accessoriesModel = new AccessoriesModel();
+        
+        // Validate stock availability
+        if (!$accessoriesModel->checkStock($productId, $quantity)) {
+            $product = $accessoriesModel->find($productId);
+            $availableStock = $product['stok_tersedia'] ?? 0;
+            
+            if ($availableStock == 0) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Stok habis untuk produk ini'
+                ]);
+            }
+            
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => "Stok tidak mencukupi. Maksimal yang dapat dibeli: {$availableStock}"
+            ]);
+        }
         
         // Find existing cart item
         $existing = $keranjangModel->where('id_user', $userId)
@@ -312,10 +359,14 @@ class Home extends BaseController
         
         $userId = session()->get('id_user');
         $totalHarga = $this->request->getPost('total_harga');
+        $checkedItemsJson = $this->request->getPost('checked_items');
+        $checkedItems = $checkedItemsJson ? json_decode($checkedItemsJson, true) : [];
         
         $checkoutModel = new CheckoutModel();
         $keranjangModel = new KeranjangModel();
         $detailCheckoutModel = new DetailCheckoutModel();
+        $pesananModel = new PesananModel();
+        $accessoriesModel = new AccessoriesModel();
         
         // Ambil data keranjang user
         $cartItems = $keranjangModel->getCartWithProducts($userId);
@@ -323,6 +374,31 @@ class Home extends BaseController
         if (empty($cartItems)) {
             session()->setFlashdata('checkout_error', 'Keranjang Anda kosong.');
             return redirect()->to(site_url('keranjang'));
+        }
+        
+        // Filter hanya item yang dipilih (diceklis)
+        $selectedItems = array_filter($cartItems, function($item) use ($checkedItems) {
+            return in_array($item['id_produk'], $checkedItems);
+        });
+        
+        if (empty($selectedItems)) {
+            session()->setFlashdata('checkout_error', 'Tidak ada produk yang dipilih.');
+            return redirect()->to(site_url('keranjang'));
+        }
+        
+        // Validasi stok untuk semua item yang dipilih
+        foreach ($selectedItems as $item) {
+            if (!$accessoriesModel->checkStock($item['id_produk'], $item['jumlah_keranjang'])) {
+                $product = $accessoriesModel->find($item['id_produk']);
+                $availableStock = $product['stok_tersedia'] ?? 0;
+                
+                if ($availableStock == 0) {
+                    session()->setFlashdata('checkout_error', "Stok habis untuk produk: {$item['nama_produk']}");
+                } else {
+                    session()->setFlashdata('checkout_error', "Stok tidak mencukupi untuk produk: {$item['nama_produk']}. Stok tersedia: {$availableStock}");
+                }
+                return redirect()->to(site_url('keranjang'));
+            }
         }
         
         // Simpan checkout dengan tanggal
@@ -335,8 +411,8 @@ class Home extends BaseController
         if ($checkoutModel->insert($checkoutData)) {
             $checkoutId = $checkoutModel->getInsertID();
             
-            // Simpan detail checkout dari keranjang
-            foreach ($cartItems as $item) {
+            // Simpan detail checkout hanya dari item yang dipilih dan kurangi stok
+            foreach ($selectedItems as $item) {
                 $detailData = [
                     'id_checkout' => $checkoutId,
                     'id_produk' => $item['id_produk'],
@@ -344,10 +420,22 @@ class Home extends BaseController
                     'harga_checkout' => $item['harga_produk'] * (1 - $item['diskon'] / 100) * $item['jumlah_keranjang']
                 ];
                 $detailCheckoutModel->insert($detailData);
+                
+                // Kurangi stok produk
+                $accessoriesModel->reduceStock($item['id_produk'], $item['jumlah_keranjang']);
+                
+                // Hapus item dari keranjang
+                $keranjangModel->where('id_user', $userId)
+                               ->where('id_produk', $item['id_produk'])
+                               ->delete();
             }
-            
-            // Hapus keranjang setelah checkout
-            $keranjangModel->clearCart($userId);
+
+            // Buat record pesanan untuk tracking pembayaran & status
+            $pesananModel->insert([
+                'id_checkout' => $checkoutId,
+                'keterangan_pembayaran' => 'Belum Bayar',
+                'status_pesanan' => 'Menunggu Pembayaran'
+            ]);
             
             // Ambil data user untuk ditampilkan di success message
             $userModel = new UserModel();

@@ -56,6 +56,7 @@ $routes->group('admin', function($routes) {
     $routes->get('checkout', 'Admin::checkout'); 
     $routes->get('checkout/detail/(:num)', 'Admin::checkoutDetail/$1');
     $routes->get('checkout/delete/(:num)', 'Admin::deleteCheckout/$1');
+    $routes->post('checkout/updateStatus', 'Admin::updatePesananStatus');
 });
 
 // *** Rute Login, Register dan Logout ***

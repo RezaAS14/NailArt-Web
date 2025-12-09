@@ -68,10 +68,10 @@
                     
                     <!-- Stock Status -->
                     <div>
-                        <?php if ($product['stok_tersedia'] > 5): ?>
-                            <p class="text-sm text-green-600 font-bold">✓ Stok Tersedia</p>
-                        <?php elseif ($product['stok_tersedia'] > 0): ?>
-                            <p class="text-sm text-orange-600 font-bold">⚠ Stok Terbatas (<?= $product['stok_tersedia'] ?> tersisa)</p>
+                        <?php if ($product['stok_tersedia'] > 0): ?>
+                            <p class="text-sm <?= $product['stok_tersedia'] > 5 ? 'text-green-600' : 'text-orange-600' ?> font-bold">
+                                <?= $product['stok_tersedia'] > 5 ? '✓' : '⚠' ?> Stok Tersedia: <?= $product['stok_tersedia'] ?>
+                            </p>
                         <?php else: ?>
                             <p class="text-sm text-red-600 font-bold">✗ Stok Habis</p>
                         <?php endif; ?>
@@ -107,6 +107,7 @@
         // Fungsi untuk menambahkan produk ke keranjang
         function addToCart(productId, productName, price, imagePath) {
             const isLoggedIn = <?= session()->has('logged_in') ? 'true' : 'false' ?>;
+            const stockAvailable = <?= $product['stok_tersedia'] ?>;
             
             if (!isLoggedIn) {
                 Swal.fire({
@@ -125,13 +126,24 @@
                 return;
             }
             
+            if (stockAvailable <= 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Stok Habis',
+                    text: 'Maaf, produk ini sedang tidak tersedia.',
+                    confirmButtonColor: '#A3485A'
+                });
+                return;
+            }
+            
             if (typeof incrementCart === 'function') {
                 incrementCart('product_' + productId, {
                     id: 'product_' + productId,
                     name: productName,
                     price: price,
                     image: imagePath,
-                    qty: 1
+                    qty: 1,
+                    maxStock: stockAvailable
                 });
             } else {
                 console.error('Function incrementCart not found');

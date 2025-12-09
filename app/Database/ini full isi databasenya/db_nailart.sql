@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 05 Des 2025 pada 02.08
+-- Waktu pembuatan: 09 Des 2025 pada 01.47
 -- Versi server: 8.0.30
 -- Versi PHP: 8.3.28
 
@@ -29,11 +29,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `accessories` (
   `id_produk` int NOT NULL,
-  `gambar_produk` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_produk` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `gambar_produk` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_produk` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `harga_produk` decimal(12,2) NOT NULL,
   `diskon` decimal(5,2) DEFAULT '0.00',
-  `deskripsi_produk` text COLLATE utf8mb4_general_ci,
+  `deskripsi_produk` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `stok_tersedia` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -42,12 +42,14 @@ CREATE TABLE `accessories` (
 --
 
 INSERT INTO `accessories` (`id_produk`, `gambar_produk`, `nama_produk`, `harga_produk`, `diskon`, `deskripsi_produk`, `stok_tersedia`) VALUES
-(1, '1764825028_19e0cef00083a1ab34eb.png', 'NAIL FILE', 90800.00, 12.00, 'Nail file adalah alat perawatan kuku yang digunakan untuk membentuk, merapikan, dan menghaluskan ujung kuku agar tampak rapi dan bersih. Alat ini biasanya terbuat dari bahan seperti kertas amplas halus, kaca, logam, atau kristal, dan sering digunakan dalam perawatan manicure maupun pedicure. Dengan teksturnya yang abrasif, nail file membantu menghilangkan bagian kuku yang kasar atau tidak rata sehingga menghasilkan bentuk kuku yang lebih estetik dan nyaman.', 50),
-(2, '1764825743_2a59f8391ba7a833565b.png', 'CUTICLE PUSHER', 30000.00, 10.00, 'Cuticle pusher adalah alat perawatan kuku yang digunakan untuk mendorong dan merapikan kutikula, yaitu lapisan tipis kulit di sekitar pangkal kuku. Alat ini biasanya terbuat dari stainless steel, kayu, atau plastik, dan memiliki dua ujung berbeda—satu untuk mendorong kutikula secara lembut, dan satu lagi untuk membersihkan kotoran serta sisa kulit mati di area kuku. Dalam proses manicure maupun pedicure, cuticle pusher membantu menciptakan tampilan kuku yang lebih bersih, rapi, dan siap untuk diaplikasikan cat kuku. Penggunaan alat ini secara teratur dapat mencegah penumpukan kutikula, mengurangi risiko iritasi, serta membuat kuku tampak lebih sehat dan terawat. Karena kepraktisannya, cuticle pusher menjadi salah satu perlengkapan wajib dalam rutinitas perawatan kuku di rumah maupun di salon profesional.', 50),
-(3, '1764826961_7f1ed9e9ffd6e1bedd6a.png', 'CUTICLE NIPPER', 115000.00, 20.00, 'Cuticle nipper adalah alat perawatan kuku berbentuk tang kecil yang digunakan untuk memotong kutikula berlebih, kulit mati, maupun hangnail di sekitar pangkal kuku. Alat ini umumnya terbuat dari stainless steel dengan ujung yang tajam dan presisi, sehingga mampu membersihkan area kutikula dengan rapi tanpa merusak kulit sehat. Cuticle nipper membantu membuat kuku tampak lebih bersih, halus, dan siap untuk proses manicure atau pedicure.', 50),
+(1, '1764825028_19e0cef00083a1ab34eb.png', 'NAIL FILE', 90800.00, 12.00, 'Nail file adalah alat perawatan kuku yang digunakan untuk membentuk, merapikan, dan menghaluskan ujung kuku agar tampak rapi dan bersih. Alat ini biasanya terbuat dari bahan seperti kertas amplas halus, kaca, logam, atau kristal, dan sering digunakan dalam perawatan manicure maupun pedicure. Dengan teksturnya yang abrasif, nail file membantu menghilangkan bagian kuku yang kasar atau tidak rata sehingga menghasilkan bentuk kuku yang lebih estetik dan nyaman.', 48),
+(2, '1764825743_2a59f8391ba7a833565b.png', 'CUTICLE PUSHER', 30000.00, 10.00, 'Cuticle pusher adalah alat perawatan kuku yang digunakan untuk mendorong dan merapikan kutikula, yaitu lapisan tipis kulit di sekitar pangkal kuku. Alat ini biasanya terbuat dari stainless steel, kayu, atau plastik, dan memiliki dua ujung berbeda—satu untuk mendorong kutikula secara lembut, dan satu lagi untuk membersihkan kotoran serta sisa kulit mati di area kuku. Dalam proses manicure maupun pedicure, cuticle pusher membantu menciptakan tampilan kuku yang lebih bersih, rapi, dan siap untuk diaplikasikan cat kuku. Penggunaan alat ini secara teratur dapat mencegah penumpukan kutikula, mengurangi risiko iritasi, serta membuat kuku tampak lebih sehat dan terawat. Karena kepraktisannya, cuticle pusher menjadi salah satu perlengkapan wajib dalam rutinitas perawatan kuku di rumah maupun di salon profesional.', 49),
+(3, '1764826961_7f1ed9e9ffd6e1bedd6a.png', 'CUTICLE NIPPER', 115000.00, 20.00, 'Cuticle nipper adalah alat perawatan kuku berbentuk tang kecil yang digunakan untuk memotong kutikula berlebih, kulit mati, maupun hangnail di sekitar pangkal kuku. Alat ini umumnya terbuat dari stainless steel dengan ujung yang tajam dan presisi, sehingga mampu membersihkan area kutikula dengan rapi tanpa merusak kulit sehat. Cuticle nipper membantu membuat kuku tampak lebih bersih, halus, dan siap untuk proses manicure atau pedicure.', 49),
 (4, '1764832688_6466b4f9c89b5edbe3b9.png', 'NAIL BRUSH', 58000.00, 50.00, 'Nail brush adalah sikat kecil yang digunakan untuk membersihkan kuku dan area sekitarnya dari kotoran, debu, dan sisa-sisa produk perawatan. Dengan bulu sikat yang lembut namun efektif, alat ini membantu menjaga kebersihan kuku sebelum dan sesudah manicure atau pedicure. Nail brush juga berguna untuk membersihkan permukaan kuku agar lebih siap menerima produk seperti base coat atau nail polish, sehingga hasil akhirnya tampak lebih rapi dan higienis.', 50),
 (5, '1764832819_d6089651f70ecc932b2f.png', 'BASE COAT', 78960.00, 50.00, 'Base coat adalah lapisan dasar yang diaplikasikan sebelum cat kuku untuk melindungi permukaan kuku dan meningkatkan daya rekat nail polish. Produk ini membantu mencegah pewarnaan kuku menjadi kusam atau menguning, sekaligus membuat hasil cat kuku lebih halus, rata, dan tahan lama. Dengan penggunaan base coat, manicure menjadi lebih rapi dan kuku tetap terlindungi dari kerusakan.', 50),
-(6, '1764832900_c003e594f6ddcee4cb52.png', 'TOP COAT', 149950.00, 80.00, 'Top coat adalah lapisan akhir yang diaplikasikan di atas cat kuku untuk memberikan perlindungan ekstra sekaligus menambah kilau pada hasil manicure. Produk ini membantu mencegah cat kuku mudah terkelupas, menggores, atau pudar, sehingga warna tetap terlihat segar dan tahan lebih lama. Dengan top coat, hasil akhir kuku tampak lebih rapi, berkilau, dan profesional.', 50);
+(6, '1764832900_c003e594f6ddcee4cb52.png', 'TOP COAT', 149950.00, 80.00, 'Top coat adalah lapisan akhir yang diaplikasikan di atas cat kuku untuk memberikan perlindungan ekstra sekaligus menambah kilau pada hasil manicure. Produk ini membantu mencegah cat kuku mudah terkelupas, menggores, atau pudar, sehingga warna tetap terlihat segar dan tahan lebih lama. Dengan top coat, hasil akhir kuku tampak lebih rapi, berkilau, dan profesional.', 50),
+(7, '1765244262_083653bdde41ad4840f3.png', 'NAIL POLISHER', 49000.00, 12.00, 'Nail polisher adalah alat yang digunakan untuk menghaluskan permukaan kuku dan memberikan kilau alami tanpa perlu menggunakan cat kuku. Dengan beberapa sisi bertekstur berbeda, nail polisher membantu meratakan permukaan kuku yang bergelombang, mengangkat kusam, serta membuat kuku tampak lebih sehat dan berkilau. Alat ini ideal digunakan sebelum manicure agar hasilnya lebih rapi dan halus.', 50),
+(8, '1765244330_3d3b4eced7af688299a0.png', 'GLITTERS', 199999.00, 57.00, 'Glitters adalah butiran berkilau berukuran kecil yang digunakan untuk menambah efek dekoratif pada nail art. Dengan berbagai bentuk, warna, dan tingkat kilap, glitters dapat memberikan tampilan kuku yang lebih menarik, glamor, dan penuh dimensi. Biasanya diaplikasikan di atas cat kuku atau gel, kemudian disegel dengan top coat agar hasilnya tahan lama dan tidak mudah rontok.', 50);
 
 -- --------------------------------------------------------
 
@@ -67,13 +69,8 @@ CREATE TABLE `checkout` (
 --
 
 INSERT INTO `checkout` (`id_checkout`, `id_user`, `total_harga`, `tanggal_checkout`) VALUES
-(14, 2, 106904.00, '2025-12-04 09:19:16'),
-(15, 2, 92000.00, '2025-12-04 09:23:08'),
-(16, 2, 184000.00, '2025-12-04 09:29:06'),
-(17, 2, 184000.00, '2025-12-04 09:29:37'),
-(18, 2, 92000.00, '2025-12-04 09:30:21'),
-(19, 2, 92000.00, '2025-12-04 10:05:41'),
-(20, 2, 92000.00, '2025-12-04 10:17:16');
+(20, 2, 92000.00, '2025-12-04 10:17:16'),
+(23, 2, 92000.00, '2025-12-09 01:22:56');
 
 -- --------------------------------------------------------
 
@@ -94,8 +91,8 @@ CREATE TABLE `detail_checkout` (
 --
 
 INSERT INTO `detail_checkout` (`id_detailco`, `id_checkout`, `id_produk`, `jumlah_checkout`, `harga_checkout`) VALUES
-(1, 19, 3, 1, 92000.00),
-(2, 20, 3, 1, 92000.00);
+(2, 20, 3, 1, 92000.00),
+(5, 23, 3, 1, 92000.00);
 
 -- --------------------------------------------------------
 
@@ -105,8 +102,8 @@ INSERT INTO `detail_checkout` (`id_detailco`, `id_checkout`, `id_produk`, `jumla
 
 CREATE TABLE `gallery` (
   `id_gallery` int NOT NULL,
-  `gambar_gallery` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
-  `deskripsi_gallery` text COLLATE utf8mb4_general_ci
+  `gambar_gallery` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `deskripsi_gallery` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -121,7 +118,9 @@ INSERT INTO `gallery` (`id_gallery`, `gambar_gallery`, `deskripsi_gallery`) VALU
 (5, '1764822679_4483f60a1feb1ca04fef.jpg', 'Desain kuku marmer kombinasi cantik.'),
 (6, '1764822719_fb3847110b9ad10c3859.jpg', 'Nail art silver glitter dengan motif bunga & pita.'),
 (7, '1764822766_eb21bd9e7770a3ded32e.jpg', 'Nail art abstrak biru lembut.'),
-(8, '1764822804_dd1c22b27d7abf4c0761.jpg', 'Kuku gel merah elegan mengkilap seperti mawar.');
+(8, '1764822804_dd1c22b27d7abf4c0761.jpg', 'Kuku gel merah elegan mengkilap seperti mawar.'),
+(9, '1765243825_88c402f521745c67e0e4.jpg', 'Nail art nude dengan detail minimalis.'),
+(10, '1765243848_d53a2600c62a4ea811bd.jpg', 'Kuku warna hijau gel tampak mewah.');
 
 -- --------------------------------------------------------
 
@@ -136,6 +135,15 @@ CREATE TABLE `keranjang` (
   `jumlah_keranjang` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `keranjang`
+--
+
+INSERT INTO `keranjang` (`id_keranjang`, `id_user`, `id_produk`, `jumlah_keranjang`) VALUES
+(13, 1, 2, 2),
+(14, 1, 3, 1),
+(15, 1, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -144,8 +152,8 @@ CREATE TABLE `keranjang` (
 
 CREATE TABLE `models` (
   `id_models` int NOT NULL,
-  `kategori_models` enum('Easy','Medium','Hard') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Easy',
-  `gambar_models` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
+  `kategori_models` enum('Easy','Medium','Hard') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Easy',
+  `gambar_models` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `durasi` decimal(5,2) NOT NULL,
   `harga_models` decimal(12,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -178,7 +186,13 @@ INSERT INTO `models` (`id_models`, `kategori_models`, `gambar_models`, `durasi`,
 (21, 'Hard', '1764824081_6360f1c45078088d2ab9.png', 2.30, 160000.00),
 (22, 'Hard', '1764824137_14c7708d0210fb57944f.png', 5.00, 250000.00),
 (23, 'Hard', '1764824192_0a275e157c1a47330972.png', 2.00, 150000.00),
-(24, 'Hard', '1764824249_17b6318266bdaa9e7354.png', 3.00, 180000.00);
+(24, 'Hard', '1764824249_17b6318266bdaa9e7354.png', 3.00, 180000.00),
+(25, 'Easy', '1765243945_4116ec9642e971d89028.png', 1.00, 65000.00),
+(26, 'Easy', '1765243973_88a9585470440b7ea72a.png', 1.00, 65000.00),
+(27, 'Medium', '1765244044_8fb21dd9881247f083e2.png', 1.50, 100000.00),
+(28, 'Medium', '1765244076_65b7ae4cd7d65a13bc30.png', 1.50, 100000.00),
+(29, 'Hard', '1765244129_87e06245a4270de8bdf8.png', 2.30, 160000.00),
+(30, 'Hard', '1765244167_083a6e1176fa1670a293.png', 2.30, 170000.00);
 
 -- --------------------------------------------------------
 
@@ -189,9 +203,16 @@ INSERT INTO `models` (`id_models`, `kategori_models`, `gambar_models`, `durasi`,
 CREATE TABLE `pesanan` (
   `id_pesanan` int NOT NULL,
   `id_checkout` int NOT NULL,
-  `keterangan_pembayaran` enum('Belum Bayar','Menunggu Verifikasi','Lunas','Gagal') COLLATE utf8mb4_general_ci NOT NULL,
-  `status_pesanan` enum('Menunggu Pembayaran','Diproses','Dikemas','Dikirim','Selesai','Dibatalkan') COLLATE utf8mb4_general_ci NOT NULL
+  `keterangan_pembayaran` enum('Belum Bayar','Menunggu Verifikasi','Lunas','Gagal') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status_pesanan` enum('Menunggu Pembayaran','Diproses','Dikemas','Dikirim','Selesai','Dibatalkan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `pesanan`
+--
+
+INSERT INTO `pesanan` (`id_pesanan`, `id_checkout`, `keterangan_pembayaran`, `status_pesanan`) VALUES
+(3, 23, 'Belum Bayar', 'Menunggu Pembayaran');
 
 -- --------------------------------------------------------
 
@@ -201,16 +222,16 @@ CREATE TABLE `pesanan` (
 
 CREATE TABLE `user` (
   `id_user` int NOT NULL,
-  `gambar_user` varchar(128) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `username` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_depan` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_belakang` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
+  `gambar_user` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_depan` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_belakang` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tanggal_lahir` date DEFAULT NULL,
-  `no_telp` varchar(13) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `alamat` text COLLATE utf8mb4_general_ci,
-  `password` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
-  `role` enum('admin','user') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'user'
+  `no_telp` varchar(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `alamat` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `password` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` enum('admin','user') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -289,43 +310,43 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `accessories`
 --
 ALTER TABLE `accessories`
-  MODIFY `id_produk` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_produk` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `checkout`
 --
 ALTER TABLE `checkout`
-  MODIFY `id_checkout` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_checkout` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT untuk tabel `detail_checkout`
 --
 ALTER TABLE `detail_checkout`
-  MODIFY `id_detailco` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_detailco` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id_gallery` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_gallery` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `keranjang`
 --
 ALTER TABLE `keranjang`
-  MODIFY `id_keranjang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_keranjang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `models`
 --
 ALTER TABLE `models`
-  MODIFY `id_models` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_models` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT untuk tabel `pesanan`
 --
 ALTER TABLE `pesanan`
-  MODIFY `id_pesanan` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pesanan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`

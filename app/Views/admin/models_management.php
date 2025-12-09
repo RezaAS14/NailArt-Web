@@ -42,7 +42,6 @@
         
         <!-- Search & Filter -->
         <div class="flex flex-col md:flex-row gap-4 mb-4">
-            <input type="text" id="searchInput" class="border rounded px-3 py-2 w-full md:w-1/3" placeholder="Cari kategori, durasi, harga..." oninput="filterTable()">
             <select id="filterKategori" class="border rounded px-3 py-2 w-full md:w-1/4" onchange="filterTable()">
                 <option value="">Semua Kategori</option>
                 <option value="Easy">Easy</option>
@@ -65,10 +64,10 @@
                             Kategori
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                            Durasi (Jam)
+                            Durasi Pengerjaan
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                            Harga
+                            Harga Jasa
                         </th>
                         <th class="px-6 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider">
                             Aksi
@@ -127,28 +126,36 @@
 <script>
     // Filter table logic
     function filterTable() {
-        const search = document.getElementById('searchInput').value.toLowerCase();
-        const kategori = document.getElementById('filterKategori').value;
+        const kategori = document.getElementById('filterKategori').value.toLowerCase();
         const table = document.getElementById('modelsTable');
         const rows = table.querySelectorAll('tbody tr');
+        let visibleRows = 0;
         
         rows.forEach(row => {
             // Skip empty state row
             if (row.cells.length === 1) return;
             
-            const text = row.innerText.toLowerCase();
-            const kategoriText = row.querySelector('.px-2')?.innerText || '';
+            const kategoriSpan = row.querySelector('td:nth-child(3) .px-2');
+            const kategoriText = kategoriSpan ? kategoriSpan.innerText.toLowerCase().trim() : '';
             
             let show = true;
             
-            // Search filter
-            if (search && !text.includes(search)) show = false;
-            
             // Kategori filter
-            if (kategori && kategoriText !== kategori) show = false;
+            if (kategori && kategoriText !== kategori) {
+                show = false;
+            }
             
             row.style.display = show ? '' : 'none';
+            if (show) visibleRows++;
         });
+        
+        // Show or hide empty state
+        const emptyState = table.querySelector('tbody tr td[colspan]');
+        if (emptyState && visibleRows === 0) {
+            emptyState.parentElement.style.display = '';
+        } else if (emptyState) {
+            emptyState.parentElement.style.display = 'none';
+        }
     }
 </script>
 

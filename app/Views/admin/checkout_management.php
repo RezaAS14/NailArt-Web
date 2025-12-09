@@ -29,27 +29,36 @@
     
     <header class="bg-white p-4 rounded-lg shadow-md mb-6 flex justify-between items-center">
         <h2 class="text-2xl font-bold text-primary-dark">
-            <i class="fa-solid fa-money-check-dollar mr-2"></i> Kelola Transaksi Checkout
+            <i class="fa-solid fa-money-check-dollar mr-2"></i> Kelola Transaksi Pesanan
         </h2>
         </header>
 
     <div class="bg-white p-6 rounded-lg shadow-md">
-        <h3 class="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Daftar Transaksi</h3>
+        <h3 class="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Daftar Pesanan</h3>
         <!-- Search & Filter -->
         <div class="flex flex-col md:flex-row gap-4 mb-4">
-            <input type="text" id="searchInput" class="border rounded px-3 py-2 w-full md:w-1/2" placeholder="Cari username, nama pembeli, alamat, atau tanggal..." oninput="filterTable()">
+            <input type="text" id="searchInput" class="border rounded px-3 py-2 w-full md:w-1/2" placeholder="Cari nama pembeli, alamat, atau tanggal..." oninput="filterTable()">
+            <select id="statusFilter" class="border rounded px-3 py-2 w-full md:w-1/3" onchange="filterTable()">
+                <option value="">Semua Status</option>
+                <option value="Menunggu Pembayaran">Menunggu Pembayaran</option>
+                <option value="Diproses">Diproses</option>
+                <option value="Dikemas">Dikemas</option>
+                <option value="Dikirim">Dikirim</option>
+                <option value="Selesai">Selesai</option>
+                <option value="Dibatalkan">Dibatalkan</option>
+            </select>
         </div>
         <div class="overflow-x-auto">
             <table id="checkoutTable" class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-card-info">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">No.</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Tanggal</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Username</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Tanggal Checkout</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Nama Pembeli</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Alamat</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Pesanan</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Aksi</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Keterangan</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Status Pesanan</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -60,18 +69,40 @@
                             </td>
                         </tr>
                     <?php else : ?>
-                        <?php $no=1; foreach ($checkout_data as $checkout) : ?>
-                            <tr class="hover:bg-bg-light-yellow transition duration-150">
+                        <?php $no=1; foreach ($checkout_data as $checkout) : 
+                            $keterangan = $checkout['keterangan_pembayaran'] ?? 'Belum Bayar';
+                            $statusPesanan = $checkout['status_pesanan'] ?? 'Menunggu Pembayaran';
+                        ?>
+                            <tr class="hover:bg-bg-light-yellow transition duration-150" 
+                                data-status="<?= esc($statusPesanan) ?>"
+                                data-keterangan="<?= esc($keterangan) ?>"
+                                data-search="<?= esc(strtolower(($checkout['nama_depan'] ?? '') . ' ' . ($checkout['nama_belakang'] ?? '') . ' ' . ($checkout['alamat'] ?? '') . ' ' . ($checkout['tanggal_checkout'] ?? ''))) ?>">
                                 <td class="px-4 py-2 font-bold text-center"> <?= $no++; ?> </td>
                                 <td class="px-4 py-2 text-sm"> <?= esc($checkout['tanggal_checkout'] ?? '-') ?> </td>
-                                <td class="px-4 py-2 font-semibold text-primary-dark"> <?= esc($checkout['username'] ?? 'N/A') ?> </td>
                                 <td class="px-4 py-2"> <?= esc($checkout['nama_depan'] ?? '') ?> <?= esc($checkout['nama_belakang'] ?? '') ?> </td>
                                 <td class="px-4 py-2 text-sm"> <?= esc($checkout['alamat'] ?? '-') ?> </td>
                                 <td class="px-4 py-2 font-bold text-green-600"> Rp<?= number_format(esc($checkout['total_harga']), 0, ',', '.') ?> </td>
-                                <td class="px-4 py-2 text-center">
-                                    <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-sm flex items-center gap-2 justify-center mx-auto" title="Lihat Detail" onclick="viewCheckoutDetail(<?= esc($checkout['id_checkout']) ?>)">
-                                        <i class="fa-solid fa-eye"></i> Detail
-                                    </button>
+                                <td class="px-4 py-2">
+                                    <select class="border rounded px-2 py-1 text-sm keterangan-select" 
+                                            onchange="updatePesanan(this, <?= esc($checkout['id_checkout']) ?>)" 
+                                            data-id="<?= esc($checkout['id_checkout']) ?>">
+                                        <option value="Belum Bayar" <?= $keterangan === 'Belum Bayar' ? 'selected' : '' ?>>Belum Bayar</option>
+                                        <option value="Menunggu Verifikasi" <?= $keterangan === 'Menunggu Verifikasi' ? 'selected' : '' ?>>Menunggu Verifikasi</option>
+                                        <option value="Lunas" <?= $keterangan === 'Lunas' ? 'selected' : '' ?>>Lunas</option>
+                                        <option value="Gagal" <?= $keterangan === 'Gagal' ? 'selected' : '' ?>>Gagal</option>
+                                    </select>
+                                </td>
+                                <td class="px-4 py-2">
+                                    <select class="border rounded px-2 py-1 text-sm status-select" 
+                                            onchange="updatePesanan(this, <?= esc($checkout['id_checkout']) ?>)" 
+                                            data-id="<?= esc($checkout['id_checkout']) ?>">
+                                        <option value="Menunggu Pembayaran" <?= $statusPesanan === 'Menunggu Pembayaran' ? 'selected' : '' ?>>Menunggu Pembayaran</option>
+                                        <option value="Diproses" <?= $statusPesanan === 'Diproses' ? 'selected' : '' ?>>Diproses</option>
+                                        <option value="Dikemas" <?= $statusPesanan === 'Dikemas' ? 'selected' : '' ?>>Dikemas</option>
+                                        <option value="Dikirim" <?= $statusPesanan === 'Dikirim' ? 'selected' : '' ?>>Dikirim</option>
+                                        <option value="Selesai" <?= $statusPesanan === 'Selesai' ? 'selected' : '' ?>>Selesai</option>
+                                        <option value="Dibatalkan" <?= $statusPesanan === 'Dibatalkan' ? 'selected' : '' ?>>Dibatalkan</option>
+                                    </select>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -103,26 +134,51 @@
         // Search & Filter logic
         function filterTable() {
             const search = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
             const table = document.getElementById('checkoutTable');
             const rows = table.querySelectorAll('tbody tr');
             rows.forEach(row => {
-                let text = row.innerText.toLowerCase();
-                let show = search ? text.includes(search) : true;
-                row.style.display = show ? '' : 'none';
+                const rowStatus = row.getAttribute('data-status') || '';
+                const rowKeterangan = row.getAttribute('data-keterangan') || '';
+                const rowSearch = row.getAttribute('data-search') || '';
+                const matchesSearch = search ? rowSearch.includes(search) : true;
+                const matchesStatus = statusFilter ? rowStatus === statusFilter : true;
+                row.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
             });
         }
 
-        // Status update (session/JS only)
-        const checkoutStatus = {};
-        function updateKeterangan(select, id) {
-            checkoutStatus[id] = checkoutStatus[id] || {};
-            checkoutStatus[id].keterangan = select.value;
-            Swal.fire({ icon: 'success', title: 'Keterangan diubah', text: 'Keterangan berhasil diupdate (tidak tersimpan di database)' });
-        }
-        function updateStatusPesanan(select, id) {
-            checkoutStatus[id] = checkoutStatus[id] || {};
-            checkoutStatus[id].status_pesanan = select.value;
-            Swal.fire({ icon: 'success', title: 'Status Pesanan diubah', text: 'Status pesanan berhasil diupdate (tidak tersimpan di database)' });
+        document.addEventListener('DOMContentLoaded', () => {
+            filterTable();
+        });
+
+        function updatePesanan(selectEl, idCheckout) {
+            const row = selectEl.closest('tr');
+            const keterangan = row.querySelector('.keterangan-select').value;
+            const status = row.querySelector('.status-select').value;
+
+            fetch('<?= site_url('admin/checkout/updateStatus') ?>', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    id_checkout: idCheckout,
+                    keterangan: keterangan,
+                    status: status
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    row.setAttribute('data-status', status);
+                    row.setAttribute('data-keterangan', keterangan);
+                    Swal.fire({ icon: 'success', title: 'Berhasil', text: 'Status pesanan tersimpan ke database', timer: 1500, showConfirmButton: false });
+                    filterTable();
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Gagal', text: data.message || 'Tidak dapat menyimpan status' });
+                }
+            })
+            .catch(() => {
+                Swal.fire({ icon: 'error', title: 'Error', text: 'Terjadi kesalahan koneksi' });
+            });
         }
     function viewCheckoutDetail(checkoutId) {
         // Show modal

@@ -8,6 +8,7 @@ use App\Models\GalleryModel; // <-- Diperlukan
 use App\Models\UserModel;
 use App\Models\CheckoutModel; 
 use App\Models\DetailCheckoutModel; 
+use App\Models\PesananModel;
 
 class Admin extends Controller
 {
@@ -441,13 +442,15 @@ class Admin extends Controller
         // Inisialisasi Model Checkout dan Detail Checkout
         $checkoutModel = new CheckoutModel();
         $detailCheckoutModel = new DetailCheckoutModel();
+        $pesananModel = new PesananModel();
         
-        // Ambil data checkout beserta detail user yang melakukan pemesanan
+        // Ambil data checkout + user + pesanan (LEFT JOIN agar tetap tampil meski belum ada pesanan)
         $checkouts = $checkoutModel
-                        ->select('checkout.*, user.username, user.nama_depan, user.nama_belakang, user.email, user.alamat')
-                        ->join('user', 'user.id_user = checkout.id_user')
-                        ->orderBy('checkout.id_checkout', 'ASC') // Urutkan dari yang terlama (data baru di bawah)
-                        ->findAll();
+                ->select('checkout.*, user.username, user.nama_depan, user.nama_belakang, user.email, user.alamat, pesanan.id_pesanan, pesanan.keterangan_pembayaran, pesanan.status_pesanan')
+                ->join('user', 'user.id_user = checkout.id_user')
+                ->join('pesanan', 'pesanan.id_checkout = checkout.id_checkout', 'left')
+                ->orderBy('checkout.id_checkout', 'ASC') // Urutkan dari yang terlama (data baru di bawah)
+                ->findAll();
         
         // Tambahkan total items untuk setiap checkout
         foreach ($checkouts as &$checkout) {
@@ -501,11 +504,14 @@ class Admin extends Controller
     {
         $checkoutModel = new CheckoutModel();
         $detailCheckoutModel = new DetailCheckoutModel();
+        $pesananModel = new PesananModel();
         $checkout = $checkoutModel->find($id);
         
         if ($checkout) {
             // Delete detail checkout first (foreign key constraint)
             $detailCheckoutModel->where('id_checkout', $id)->delete();
+            // Delete pesanan jika ada
+            $pesananModel->where('id_checkout', $id)->delete();
             // Then delete checkout
             $checkoutModel->delete($id);
             session()->setFlashdata('success', 'Transaksi checkout berhasil dihapus.');
@@ -514,5 +520,38 @@ class Admin extends Controller
         }
         
         return redirect()->to(site_url('admin/checkout'));
+    }
+
+    /**
+     * Update status pesanan & pembayaran (persist ke DB)
+     */
+    public function updatePesananStatus()
+    {
+        $pesananModel = new PesananModel();
+
+        $idCheckout = $this->request->getPost('id_checkout');
+        $keterangan = $this->request->getPost('keterangan');
+        $status = $this->request->getPost('status');
+
+        if (!$idCheckout) {
+            return $this->response->setJSON(['success' => false, 'message' => 'ID checkout tidak ditemukan']);
+        }
+
+        // Pastikan record ada, kalau belum ada buat dulu
+        $existing = $pesananModel->where('id_checkout', $idCheckout)->first();
+
+        $payload = [
+            'keterangan_pembayaran' => $keterangan ?? 'Belum Bayar',
+            'status_pesanan' => $status ?? 'Menunggu Pembayaran'
+        ];
+
+        if ($existing) {
+            $pesananModel->update($existing['id_pesanan'], $payload);
+        } else {
+            $payload['id_checkout'] = $idCheckout;
+            $pesananModel->insert($payload);
+        }
+
+        return $this->response->setJSON(['success' => true, 'message' => 'Status pesanan diperbarui']);
     }
 }

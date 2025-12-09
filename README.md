@@ -60,6 +60,7 @@ Password: admin123
 - 🏷️ **Accessories Management** - CRUD katalog produk
 - 👥 **Users Management** - CRUD data user
 - 📦 **Checkout Management** - Lihat transaksi & detail pesanan
+- 📋 **Pesanan Management** - Track status pembayaran & pesanan (AUTO: Buat pesanan saat checkout)
 
 ---
 
@@ -157,6 +158,7 @@ NailArt-Web/
 - **keranjang** - Shopping cart (temporary untuk guest, persistent untuk user)
 - **checkout** - Transaksi (id_user, total_harga, tanggal_checkout)
 - **detail_checkout** - Detail item checkout (id_checkout, id_produk, jumlah_checkout, harga_checkout)
+- **pesanan** - Order tracking (id_checkout, keterangan_pembayaran, status_pesanan)
 
 ---
 
@@ -203,6 +205,8 @@ POST /admin/saveAccessories → Save accessories
 GET  /admin/users-management → Users management
 GET  /admin/checkout      → Checkout management
 POST /admin/checkout/detail → Get checkout detail (AJAX)
+GET  /admin/pesanan       → Pesanan management (Order tracking)
+POST /admin/updatePesananStatus → Update pesanan status (AJAX)
 ```
 
 ---
@@ -261,6 +265,11 @@ php vendor/bin/phpunit
 - **Error Logs**: `/writable/logs/`
 - **Database**: Import `app/Database/db_nailart.sql`
 - **Config**: Edit `app/Config/` untuk konfigurasi
+- **Pesanan Integration**: Lihat `PESANAN_INTEGRATION.md` untuk dokumentasi lengkap order system
+- **Pesanan Summary**: Lihat `PESANAN_SYSTEM_SUMMARY.md` untuk implementasi overview
+- **Database Versions**: Lihat `DATABASE_VERSIONS.md` untuk informasi database variants
+- **CRUD Operations**: Lihat `CRUD_DOCUMENTATION.md` untuk panduan operasi database
+- **Error Handling**: Lihat `REGISTER_ERROR_GUIDE.md` untuk troubleshooting registrasi
 
 ---
 

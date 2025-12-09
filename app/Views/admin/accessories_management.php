@@ -38,10 +38,21 @@
     </header>
 
     <div class="bg-white p-6 rounded-lg shadow-md">
-        <h3 class="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Daftar Produk Accessories</h3>
+        <h3 class="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Daftar Produk</h3>
+        
+        <!-- Search & Filter -->
+        <div class="flex flex-col md:flex-row gap-4 mb-4">
+            <input type="text" id="searchProductInput" class="border rounded px-3 py-2 w-full md:w-1/2" placeholder="Cari nama produk atau deskripsi..." oninput="filterProductTable()">
+            <select id="filterStockStatus" class="border rounded px-3 py-2 w-full md:w-1/4" onchange="filterProductTable()">
+                <option value="">Semua Stok</option>
+                <option value="tersedia">Tersedia (> 25)</option>
+                <option value="rendah">Stok Rendah (≤ 25)</option>
+                <option value="habis">Habis (0)</option>
+            </select>
+        </div>
         
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
+            <table id="productsTable" class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-card-info">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">No.</th>
@@ -103,5 +114,56 @@
         </div>
     </div>
 </div>
+
+<script>
+function filterProductTable() {
+    const search = document.getElementById('searchProductInput').value.toLowerCase();
+    const stockFilter = document.getElementById('filterStockStatus').value;
+    const table = document.getElementById('productsTable');
+    const rows = table.querySelectorAll('tbody tr');
+    let visibleRows = 0;
+    
+    rows.forEach(row => {
+        // Skip empty state row
+        if (row.cells.length === 1 || row.querySelector('td[colspan]')) {
+            return;
+        }
+        
+        // Get product name and description
+        const nama = row.querySelector('td:nth-child(3)')?.innerText.toLowerCase() || '';
+        const deskripsi = row.querySelector('td:nth-child(6)')?.innerText.toLowerCase() || '';
+        const searchText = nama + ' ' + deskripsi;
+        
+        // Get stock value
+        const stockCell = row.querySelector('td:nth-child(7) span');
+        const stock = parseInt(stockCell?.innerText || 0);
+        
+        let show = true;
+        
+        // Search filter
+        if (search && !searchText.includes(search)) {
+            show = false;
+        }
+        
+        // Stock filter
+        if (stockFilter) {
+            if (stockFilter === 'tersedia' && stock <= 25) show = false;
+            if (stockFilter === 'rendah' && (stock > 25 || stock === 0)) show = false;
+            if (stockFilter === 'habis' && stock !== 0) show = false;
+        }
+        
+        row.style.display = show ? '' : 'none';
+        if (show) visibleRows++;
+    });
+    
+    // Show or hide empty state
+    const emptyState = table.querySelector('tbody tr td[colspan]');
+    if (emptyState && visibleRows === 0) {
+        emptyState.parentElement.style.display = '';
+    } else if (emptyState) {
+        emptyState.parentElement.style.display = 'none';
+    }
+}
+</script>
 
 <?php $this->endSection() ?>

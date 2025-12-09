@@ -14,4 +14,38 @@ class AccessoriesModel extends Model
         'deskripsi_produk', 
         'stok_tersedia'
     ];
+
+    /**
+     * Reduce stock for a product
+     */
+    public function reduceStock($productId, $quantity)
+    {
+        $product = $this->find($productId);
+        
+        if (!$product) {
+            return false;
+        }
+        
+        $newStock = $product['stok_tersedia'] - $quantity;
+        
+        if ($newStock < 0) {
+            return false;
+        }
+        
+        return $this->update($productId, ['stok_tersedia' => $newStock]);
+    }
+
+    /**
+     * Check if stock is available
+     */
+    public function checkStock($productId, $requestedQty)
+    {
+        $product = $this->find($productId);
+        
+        if (!$product) {
+            return false;
+        }
+        
+        return $product['stok_tersedia'] >= $requestedQty;
+    }
 }

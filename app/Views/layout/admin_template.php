@@ -90,12 +90,12 @@
             </a>
             <a href="<?= site_url('admin/accessories') ?>" 
                 class="admin-link flex items-center p-3 rounded-lg transition duration-200 hover:bg-sidebar-hover <?= (isset($currentPage) && $currentPage == 'accessories') ? 'active' : '' ?>">
-                <i class="fa-solid fa-tag mr-3"></i> Kelola Accessories
+                <i class="fa-solid fa-tag mr-3"></i> Kelola Produk
             </a>
             
             <a href="<?= site_url('admin/checkout') ?>" 
                 class="admin-link flex items-center p-3 rounded-lg transition duration-200 hover:bg-sidebar-hover <?= (isset($currentPage) && $currentPage == 'checkout') ? 'active' : '' ?>">
-                <i class="fa-solid fa-money-check-dollar mr-3"></i> Kelola Checkout
+                <i class="fa-solid fa-money-check-dollar mr-3"></i> Kelola Pesanan
             </a>
             <hr class="border-t border-white border-opacity-30 my-4">
             <a href="<?= site_url('admin/users') ?>" 

@@ -46,7 +46,7 @@
 
     <div class="bg-card-info p-5 rounded-lg shadow-xl flex items-center justify-between">
         <div>
-            <p class="text-sm font-semibold text-gray-700">Total Checkout</p>
+            <p class="text-sm font-semibold text-gray-700">Total Pesanan</p>
             <p class="text-3xl font-bold text-primary-dark mt-1"><?= $total_checkout ?? 0 ?></p> 
         </div>
         <i class="fa-solid fa-shopping-cart text-5xl text-primary-dark opacity-50"></i>
