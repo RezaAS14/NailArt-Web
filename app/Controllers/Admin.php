@@ -13,21 +13,12 @@ use App\Models\PesananModel;
 class Admin extends Controller
 {
     /**
-     * Konstruktor: memastikan hanya admin yang bisa mengakses.
+     * Konstruktor: load helper yang diperlukan.
+     * Filter AdminFilter sudah menghandle autentikasi admin.
      */
     public function __construct()
     {
         helper(['url', 'session']);
-
-        if (!session()->get('logged_in')) {
-            session()->setFlashdata('login_error', 'Anda harus login untuk mengakses halaman admin.');
-            return redirect()->to(site_url('/'));
-        }
-        
-        if (session()->get('role') !== 'admin') {
-            session()->setFlashdata('login_error', 'Akses Ditolak: Anda tidak memiliki izin Admin.');
-            return redirect()->to(site_url('/'));
-        }
     }
     
     /**

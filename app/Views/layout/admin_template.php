@@ -147,6 +147,17 @@
                 }
             });
         <?php endif; ?>
+        
+        // Alert Login Error atau Akses Ditolak
+        <?php if (session()->getFlashdata('login_error')): ?>
+            Swal.fire({
+                title: 'Akses Ditolak!',
+                text: '<?= session()->getFlashdata('login_error') ?>',
+                icon: 'error',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#A3485A'
+            });
+        <?php endif; ?>
     </script>
 
 </body>

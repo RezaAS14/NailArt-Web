@@ -5,28 +5,28 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
-$routes->get('/about', 'Home::about');
-$routes->get('/models', 'Home::models');
-$routes->get('/daftar', 'Home::daftar');
-$routes->get('/accessories', 'Home::accessories');
-$routes->get('/gallery', 'Home::gallery');
-$routes->get('/profil', 'Home::profil');
-$routes->post('/profil/update', 'Home::updateProfile');
-$routes->get('/keranjang', 'Home::keranjang');
+$routes->get('/', 'Home::index', ['filter' => 'userfilter']);
+$routes->get('/about', 'Home::about', ['filter' => 'userfilter']);
+$routes->get('/models', 'Home::models', ['filter' => 'userfilter']);
+$routes->get('/daftar', 'Home::daftar', ['filter' => 'userfilter']);
+$routes->get('/accessories', 'Home::accessories', ['filter' => 'userfilter']);
+$routes->get('/gallery', 'Home::gallery', ['filter' => 'userfilter']);
+$routes->get('/profil', 'Home::profil', ['filter' => 'userfilter']);
+$routes->post('/profil/update', 'Home::updateProfile', ['filter' => 'userfilter']);
+$routes->get('/keranjang', 'Home::keranjang', ['filter' => 'userfilter']);
 
 // --- AJAX Routes untuk Keranjang ---
-$routes->post('/cart/add', 'Home::addToCart');
-$routes->get('/cart/get', 'Home::getCartData');
-$routes->post('/cart/update', 'Home::updateCart');
-$routes->post('/cart/remove', 'Home::removeCart');
-$routes->post('/checkout/process', 'Home::processCheckout');
+$routes->post('/cart/add', 'Home::addToCart', ['filter' => 'userfilter']);
+$routes->get('/cart/get', 'Home::getCartData', ['filter' => 'userfilter']);
+$routes->post('/cart/update', 'Home::updateCart', ['filter' => 'userfilter']);
+$routes->post('/cart/remove', 'Home::removeCart', ['filter' => 'userfilter']);
+$routes->post('/checkout/process', 'Home::processCheckout', ['filter' => 'userfilter']);
 
 // --- Detail Produk Aksesori (Frontend) ---
-$routes->get('/accessories/detail/(:num)', 'Home::detailAccessory/$1');
+$routes->get('/accessories/detail/(:num)', 'Home::detailAccessory/$1', ['filter' => 'userfilter']);
 
 // --- Rute Admin ---
-$routes->group('admin', function($routes) {
+$routes->group('admin', ['filter' => 'adminfilter'], function($routes) {
     $routes->get('dashboard', 'Admin::dashboard'); 
     
     // Gallery Routes

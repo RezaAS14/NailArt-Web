@@ -595,6 +595,20 @@
         </script>
     <?php endif; ?>
     
+    <?php if (session()->getFlashdata('access_denied')): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Akses Ditolak!',
+                    text: '<?= session()->getFlashdata('access_denied') ?>',
+                    icon: 'warning',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#A3485A'
+                });
+            });
+        </script>
+    <?php endif; ?>
+    
     <?php if (session()->getFlashdata('is_logged_out')): ?>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
