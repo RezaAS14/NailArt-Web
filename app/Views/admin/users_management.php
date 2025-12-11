@@ -95,7 +95,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                    <a href="<?= site_url('admin/users/delete/' . esc($user['id_user'])) ?>" 
+                                                <a href="<?= site_url('admin/user/delete/' . esc($user['id_user'])) ?>" 
                                        onclick="return confirm('Anda yakin ingin menghapus user <?= esc($user['username']) ?>?')" 
                                        class="text-red-600 hover:text-red-900 mx-1" 
                                        title="Hapus">
