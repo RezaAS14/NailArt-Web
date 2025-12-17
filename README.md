@@ -34,6 +34,60 @@ php spark serve
 - Admin:    http://localhost:8080/admin/dashboard
 ```
 
+---
+
+## ⚙️ Konfigurasi Environment
+
+> **⚠️ PENTING!** Jangan lupa sesuaikan file `.env` sebelum menjalankan aplikasi.
+
+### Langkah Setup .env
+
+1. **Jika file `.env` belum ada:**
+   ```bash
+   # Copy dari template
+   cp env .env
+   # atau salin manual dari file 'env' dan rename menjadi '.env'
+   ```
+
+2. **Sesuaikan konfigurasi berikut:**
+
+   ```ini
+   # Base URL aplikasi
+   app.baseURL = 'http://localhost:8080/'
+
+   # Database Configuration
+   database.default.hostname = localhost
+   database.default.database = db_nailart
+   database.default.username = root
+   database.default.password = 
+   database.default.DBDriver = MySQLi
+   ```
+
+3. **Pastikan konfigurasi sudah benar sebelum menjalankan:**
+   - ✅ `app.baseURL` sesuai dengan port server Anda
+   - ✅ `database.default.hostname` sesuai dengan MySQL host Anda
+   - ✅ `database.default.database` nama database sudah dibuat
+   - ✅ `database.default.username` dan `password` sesuai dengan MySQL Anda
+   - ✅ `database.default.DBDriver` gunakan `MySQLi` atau `Postgre` sesuai kebutuhan
+
+### Contoh Konfigurasi Lain
+
+```ini
+# Development (Laragon/XAMPP)
+app.baseURL = 'http://localhost:8080/'
+database.default.hostname = localhost
+database.default.username = root
+database.default.password = 
+
+# Production
+app.baseURL = 'https://nailart.yourdomain.com/'
+database.default.hostname = your-db-host
+database.default.username = your-db-user
+database.default.password = your-secure-password
+```
+
+---
+
 ### Default Login
 ```
 Admin:
